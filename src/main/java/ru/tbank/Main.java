@@ -5,22 +5,17 @@ import ru.tbank.parser.Parser;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Main {
 
     private static List<File> getAllJsonFiles(File directory) {
-        List<File> jsonFiles = new ArrayList<>();
-
-        for (File file : Objects.requireNonNull(directory.listFiles())) {
-            if (file.isFile()) {
-                jsonFiles.add(file);
-            }
-        }
-
-        return jsonFiles;
+        return Arrays.stream(Objects.requireNonNull(directory.listFiles()))
+                .filter(File::isFile)
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {

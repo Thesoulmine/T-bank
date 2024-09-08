@@ -10,11 +10,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.projectlombok:lombok:1.18.34")
+    implementation("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
-
-    testCompileOnly("org.projectlombok:lombok:1.18.34")
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.34")
 
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.2")

@@ -1,7 +1,6 @@
-package ru.tbank;
+package ru.tbank.parser;
 
-import ru.tbank.model.City;
-import ru.tbank.parser.Parser;
+import ru.tbank.parser.model.City;
 
 import java.io.File;
 import java.io.IOException;

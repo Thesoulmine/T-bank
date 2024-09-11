@@ -1,4 +1,4 @@
-package ru.tbank.model;
+package ru.tbank.parser.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

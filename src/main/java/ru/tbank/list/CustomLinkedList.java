@@ -13,14 +13,7 @@ public class CustomLinkedList<E> implements CustomList<E> {
         if (head == null) {
             head = new Node(null, null, element);
         } else {
-            if (tail == null) {
-                tail = new Node(head, null, element);
-                head.next = tail;
-            } else {
-                Node temp = tail;
-                tail = new Node(temp, null, element);
-                temp.next = tail;
-            }
+            linkLastNode(element);
         }
         size++;
 
@@ -31,11 +24,7 @@ public class CustomLinkedList<E> implements CustomList<E> {
     public E get(int index) {
         checkIndex(index);
 
-        Node temp = head;
-
-        for (int i = 0; i < index; i++) {
-            temp = temp.next;
-        }
+        Node temp = findNodeByIndex(index);
 
         return temp.value;
     }
@@ -44,25 +33,8 @@ public class CustomLinkedList<E> implements CustomList<E> {
     public E remove(int index) {
         checkIndex(index);
 
-        Node temp = head;
-
-        for (int i = 0; i < index; i++) {
-            temp = temp.next;
-        }
-
-        if (temp.previous != null) {
-            temp.previous.next = temp.next;
-        } else {
-            head = temp.next;
-        }
-
-        if (temp.next != null) {
-            temp.next.previous = temp.previous;
-        } else {
-            tail = temp.previous;
-        }
-
-        size--;
+        Node temp = findNodeByIndex(index);
+        unlinkNode(temp);
 
         return temp.value;
     }
@@ -71,13 +43,22 @@ public class CustomLinkedList<E> implements CustomList<E> {
     public boolean contains(E element) {
         Node temp = head;
 
-        while (temp != null) {
-            if (element.equals(temp.value)) {
-                return true;
+        if (element == null) {
+            while (temp != null) {
+                if (temp.value == null) {
+                    return true;
+                }
+                temp = temp.next;
             }
-            temp = temp.next;
+        } else {
+            while (temp != null) {
+                if (temp.value.equals(element)) {
+                    return true;
+                }
+                temp = temp.next;
+            }
         }
-
+        
         return false;
     }
 
@@ -87,7 +68,7 @@ public class CustomLinkedList<E> implements CustomList<E> {
             return false;
         }
 
-        for (int i = 0; i < list.getSize(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             add(list.get(i));
         }
 
@@ -109,7 +90,7 @@ public class CustomLinkedList<E> implements CustomList<E> {
     }
 
     @Override
-    public int getSize() {
+    public int size() {
         return size;
     }
 
@@ -117,6 +98,49 @@ public class CustomLinkedList<E> implements CustomList<E> {
         if (!(index >= 0 && index < size)) {
             throw new IndexOutOfBoundsException();
         }
+    }
+
+    private void linkLastNode(E element) {
+        if (tail == null) {
+            tail = new Node(head, null, element);
+            head.next = tail;
+        } else {
+            Node temp = tail;
+            tail = new Node(temp, null, element);
+            temp.next = tail;
+        }
+    }
+
+    private void unlinkNode(Node node) {
+        if (node.previous != null) {
+            node.previous.next = node.next;
+        } else {
+            head = node.next;
+        }
+
+        if (node.next != null) {
+            node.next.previous = node.previous;
+        } else {
+            tail = node.previous;
+        }
+
+        size--;
+    }
+
+    private Node findNodeByIndex(int index) {
+        Node temp;
+
+        if (index < (size / 2) || size == 1) {
+            temp = head;
+            for (int i = 0; i < index; i++)
+                temp = temp.next;
+        } else {
+            temp = tail;
+            for (int i = size - 1; i > index; i--)
+                temp = temp.previous;
+        }
+
+        return temp;
     }
 
     private class Node {

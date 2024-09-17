@@ -16,5 +16,5 @@ public interface CustomList<E> {
 
     boolean addAll(List<E> list);
 
-    int getSize();
+    int size();
 }

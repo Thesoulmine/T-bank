@@ -1,5 +1,6 @@
 package ru.tbank.restful.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
@@ -8,7 +9,8 @@ import org.springframework.web.client.RestClient;
 public class RestClientConfiguration {
 
     @Bean
-    public RestClient restClient() {
-        return RestClient.create();
+    @Qualifier("kudaGoRestClient")
+    public RestClient kudaGoRestClient() {
+        return RestClient.create("https://kudago.com/public-api/v1.4/");
     }
 }

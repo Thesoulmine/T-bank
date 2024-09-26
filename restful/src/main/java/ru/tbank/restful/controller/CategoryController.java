@@ -27,7 +27,7 @@ public class CategoryController {
         this.categoryMapper = categoryMapper;
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<CategoryResponseDTO>> getAllCategories() {
         return new ResponseEntity<>(
                 categoryMapper.toResponseDTO(categoryService.getAllCategories()),
@@ -41,7 +41,7 @@ public class CategoryController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<CategoryResponseDTO> createCategory(
             @RequestBody CategoryRequestDTO categoryRequestDTO) {
         return new ResponseEntity<>(

@@ -1,5 +1,6 @@
 package ru.tbank.restful.client;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -15,7 +16,7 @@ public class LocationKudaGoClient implements LocationClient {
     private final RestClient restClient;
     private final LocationMapper locationMapper;
 
-    public LocationKudaGoClient(RestClient restClient,
+    public LocationKudaGoClient(@Qualifier("kudaGoRestClient") RestClient restClient,
                                 LocationMapper locationMapper) {
         this.restClient = restClient;
         this.locationMapper = locationMapper;
@@ -26,7 +27,7 @@ public class LocationKudaGoClient implements LocationClient {
         return locationMapper.toEntity(
                 restClient
                         .get()
-                        .uri("https://kudago.com/public-api/v1.4/locations/")
+                        .uri("locations/")
                         .retrieve()
                         .body(new ParameterizedTypeReference<List<LocationRequestDTO>>() {}));
     }

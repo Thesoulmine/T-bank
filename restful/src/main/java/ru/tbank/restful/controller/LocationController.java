@@ -27,7 +27,7 @@ public class LocationController {
         this.locationMapper = locationMapper;
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<LocationResponseDTO>> getAllLocations() {
         return new ResponseEntity<>(
                 locationMapper.toResponseDTO(locationService.getAllLocations()),
@@ -41,7 +41,7 @@ public class LocationController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<LocationResponseDTO> createLocation(
             @RequestBody LocationRequestDTO locationRequestDTO) {
         return new ResponseEntity<>(

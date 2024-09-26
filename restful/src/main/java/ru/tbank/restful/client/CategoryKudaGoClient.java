@@ -1,5 +1,6 @@
 package ru.tbank.restful.client;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -15,7 +16,7 @@ public class CategoryKudaGoClient implements CategoryClient {
     private final RestClient restClient;
     private final CategoryMapper categoryMapper;
 
-    public CategoryKudaGoClient(RestClient restClient,
+    public CategoryKudaGoClient(@Qualifier("kudaGoRestClient") RestClient restClient,
                                 CategoryMapper categoryMapper) {
         this.restClient = restClient;
         this.categoryMapper = categoryMapper;
@@ -26,7 +27,7 @@ public class CategoryKudaGoClient implements CategoryClient {
         return categoryMapper.toEntity(
                 restClient
                         .get()
-                        .uri("https://kudago.com/public-api/v1.4/place-categories/")
+                        .uri("place-categories/")
                         .retrieve()
                         .body(new ParameterizedTypeReference<List<CategoryRequestDTO>>() {}));
     }

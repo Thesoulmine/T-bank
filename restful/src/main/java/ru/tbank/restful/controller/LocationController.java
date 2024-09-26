@@ -3,12 +3,12 @@ package ru.tbank.restful.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.tbank.restful.annotation.Timed;
 import ru.tbank.restful.dto.ExceptionMessageResponseDTO;
 import ru.tbank.restful.dto.LocationRequestDTO;
 import ru.tbank.restful.dto.LocationResponseDTO;
 import ru.tbank.restful.mapper.LocationMapper;
 import ru.tbank.restful.service.LocationService;
+import ru.tbank.timedstarter.annotation.Timed;
 
 import java.util.List;
 import java.util.NoSuchElementException;

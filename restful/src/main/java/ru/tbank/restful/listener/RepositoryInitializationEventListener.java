@@ -5,11 +5,11 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
-import ru.tbank.restful.annotation.Timed;
 import ru.tbank.restful.client.CategoryClient;
 import ru.tbank.restful.client.LocationClient;
 import ru.tbank.restful.service.CategoryService;
 import ru.tbank.restful.service.LocationService;
+import ru.tbank.timedstarter.annotation.Timed;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;

@@ -1,3 +1,5 @@
 rootProject.name = "T-bank"
-include("timed-starter", "restful")
-
+include("restful")
+include("parser")
+include("list")
+include("timed-starter")

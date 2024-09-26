@@ -3,13 +3,12 @@ package ru.tbank.restful.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import ru.tbank.restful.annotation.Timed;
 import ru.tbank.restful.dto.CategoryRequestDTO;
 import ru.tbank.restful.dto.CategoryResponseDTO;
 import ru.tbank.restful.dto.ExceptionMessageResponseDTO;
 import ru.tbank.restful.mapper.CategoryMapper;
 import ru.tbank.restful.service.CategoryService;
+import ru.tbank.timedstarter.annotation.Timed;
 
 import java.util.List;
 import java.util.NoSuchElementException;

@@ -13,14 +13,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.tbank.restful.dto.LocationRequestDTO;
 import ru.tbank.restful.dto.LocationResponseDTO;
 import ru.tbank.restful.entity.Location;
-import ru.tbank.restful.mapper.LocationMapper;
 import ru.tbank.restful.mapper.LocationMapperImpl;
 import ru.tbank.restful.service.LocationService;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @Import(LocationMapperImpl.class)
 @WebMvcTest(LocationController.class)
@@ -79,6 +77,23 @@ class LocationControllerTest {
         mockMvc.perform(post("/api/v1/locations")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestLocation)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(resultLocation)));
+    }
+
+    @Test
+    public void deleteLocation_DeleteLocationAndReturnDeletedLocation() throws Exception {
+        Location location = new Location();
+        location.setId(1L);
+        location.setName("qwe");
+
+        LocationResponseDTO resultLocation = new LocationResponseDTO();
+        resultLocation.setId(1L);
+        resultLocation.setName("qwe");
+
+        Mockito.when(locationService.deleteLocationBy(Mockito.eq(location.getId()))).thenReturn(location);
+
+        mockMvc.perform(delete("/api/v1/locations/{id}", location.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(resultLocation)));
     }

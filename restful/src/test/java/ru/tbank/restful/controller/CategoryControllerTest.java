@@ -13,14 +13,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.tbank.restful.dto.CategoryRequestDTO;
 import ru.tbank.restful.dto.CategoryResponseDTO;
 import ru.tbank.restful.entity.Category;
-import ru.tbank.restful.mapper.CategoryMapper;
 import ru.tbank.restful.mapper.CategoryMapperImpl;
 import ru.tbank.restful.service.CategoryService;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @Import(CategoryMapperImpl.class)
 @WebMvcTest(CategoryController.class)
@@ -82,6 +80,25 @@ class CategoryControllerTest {
         mockMvc.perform(post("/api/v1/places/categories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestCategory)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(resultCategory)));
+    }
+
+    @Test
+    public void deleteCategory_DeleteCategoryAndReturnDeletedCategory() throws Exception {
+        Category category = new Category();
+        category.setId(1L);
+        category.setKudaGoId(1L);
+        category.setName("qwe");
+
+        CategoryResponseDTO resultCategory = new CategoryResponseDTO();
+        resultCategory.setId(1L);
+        resultCategory.setKudaGoId(1L);
+        resultCategory.setName("qwe");
+
+        Mockito.when(categoryService.deleteCategoryBy(Mockito.eq(category.getId()))).thenReturn(category);
+
+        mockMvc.perform(delete("/api/v1/places/categories/{id}", category.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(resultCategory)));
     }

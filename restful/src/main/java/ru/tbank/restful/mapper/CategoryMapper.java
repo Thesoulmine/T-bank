@@ -13,6 +13,7 @@ public interface CategoryMapper {
 
     Category toEntity(CategoryResponseDTO categoryResponseDTO);
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "kudaGoId", source = "id")
     Category toEntity(CategoryRequestDTO categoryRequestDTO);
 

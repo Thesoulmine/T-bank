@@ -1,6 +1,7 @@
 package ru.tbank.restful.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import ru.tbank.restful.dto.LocationRequestDTO;
 import ru.tbank.restful.dto.LocationResponseDTO;
 import ru.tbank.restful.entity.Location;
@@ -12,6 +13,7 @@ public interface LocationMapper {
 
     Location toEntity(LocationResponseDTO locationResponseDTO);
 
+    @Mapping(target = "id", ignore = true)
     Location toEntity(LocationRequestDTO locationRequestDTO);
 
     List<Location> toEntity(List<LocationRequestDTO> locationRequestDTOList);

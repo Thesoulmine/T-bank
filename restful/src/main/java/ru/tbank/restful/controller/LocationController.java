@@ -28,43 +28,33 @@ public class LocationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LocationResponseDTO>> getAllLocations() {
-        return new ResponseEntity<>(
-                locationMapper.toResponseDTO(locationService.getAllLocations()),
-                HttpStatus.OK);
+    public List<LocationResponseDTO> getAllLocations() {
+        return locationMapper.toResponseDTO(locationService.getAllLocations());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LocationResponseDTO> getLocation(@PathVariable Long id) {
-        return new ResponseEntity<>(
-                locationMapper.toResponseDTO(locationService.getLocationBy(id)),
-                HttpStatus.OK);
+    public LocationResponseDTO getLocation(@PathVariable Long id) {
+        return locationMapper.toResponseDTO(locationService.getLocationBy(id));
     }
 
     @PostMapping
-    public ResponseEntity<LocationResponseDTO> createLocation(
+    public LocationResponseDTO createLocation(
             @RequestBody LocationRequestDTO locationRequestDTO) {
-        return new ResponseEntity<>(
-                locationMapper.toResponseDTO(
-                        locationService.saveLocation(locationMapper.toEntity(locationRequestDTO))),
-                HttpStatus.OK);
+        return locationMapper.toResponseDTO(
+                locationService.saveLocation(locationMapper.toEntity(locationRequestDTO)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LocationResponseDTO> updateLocation(
+    public LocationResponseDTO updateLocation(
             @PathVariable Long id,
             @RequestBody LocationRequestDTO locationRequestDTO) {
-        return new ResponseEntity<>(
-                locationMapper.toResponseDTO(
-                        locationService.updateLocation(id, locationMapper.toEntity(locationRequestDTO))),
-                HttpStatus.OK);
+        return locationMapper.toResponseDTO(
+                locationService.updateLocation(id, locationMapper.toEntity(locationRequestDTO)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<LocationResponseDTO> deleteLocation(@PathVariable Long id) {
-        return new ResponseEntity<>(
-                locationMapper.toResponseDTO(locationService.deleteLocationBy(id)),
-                HttpStatus.OK);
+    public LocationResponseDTO deleteLocation(@PathVariable Long id) {
+        return locationMapper.toResponseDTO(locationService.deleteLocationBy(id));
     }
 
     @ExceptionHandler(NoSuchElementException.class)

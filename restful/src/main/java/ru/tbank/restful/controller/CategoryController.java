@@ -28,43 +28,33 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponseDTO>> getAllCategories() {
-        return new ResponseEntity<>(
-                categoryMapper.toResponseDTO(categoryService.getAllCategories()),
-                HttpStatus.OK);
+    public List<CategoryResponseDTO> getAllCategories() {
+        return categoryMapper.toResponseDTO(categoryService.getAllCategories());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponseDTO> getCategory(@PathVariable Long id) {
-        return new ResponseEntity<>(
-                categoryMapper.toResponseDTO(categoryService.getCategoryBy(id)),
-                HttpStatus.OK);
+    public CategoryResponseDTO getCategory(@PathVariable Long id) {
+        return categoryMapper.toResponseDTO(categoryService.getCategoryBy(id));
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponseDTO> createCategory(
+    public CategoryResponseDTO createCategory(
             @RequestBody CategoryRequestDTO categoryRequestDTO) {
-        return new ResponseEntity<>(
-                categoryMapper.toResponseDTO(
-                        categoryService.saveCategory(categoryMapper.toEntity(categoryRequestDTO))),
-                HttpStatus.OK);
+        return categoryMapper.toResponseDTO(
+                categoryService.saveCategory(categoryMapper.toEntity(categoryRequestDTO)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryResponseDTO> updateCategory(
+    public CategoryResponseDTO updateCategory(
             @PathVariable Long id,
             @RequestBody CategoryRequestDTO categoryRequestDTO) {
-        return new ResponseEntity<>(
-                categoryMapper.toResponseDTO(
-                        categoryService.updateCategory(id, categoryMapper.toEntity(categoryRequestDTO))),
-                HttpStatus.OK);
+        return categoryMapper.toResponseDTO(
+                categoryService.updateCategory(id, categoryMapper.toEntity(categoryRequestDTO)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CategoryResponseDTO> deleteCategory(@PathVariable Long id) {
-        return new ResponseEntity<>(
-                categoryMapper.toResponseDTO(categoryService.deleteCategoryBy(id)),
-                HttpStatus.OK);
+    public CategoryResponseDTO deleteCategory(@PathVariable Long id) {
+        return categoryMapper.toResponseDTO(categoryService.deleteCategoryBy(id));
     }
 
     @ExceptionHandler(NoSuchElementException.class)

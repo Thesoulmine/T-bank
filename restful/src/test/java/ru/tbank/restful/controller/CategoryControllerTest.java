@@ -12,11 +12,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.tbank.restful.dto.CategoryRequestDTO;
 import ru.tbank.restful.dto.CategoryResponseDTO;
+import ru.tbank.restful.dto.ExceptionMessageResponseDTO;
 import ru.tbank.restful.entity.Category;
 import ru.tbank.restful.mapper.CategoryMapperImpl;
 import ru.tbank.restful.service.CategoryService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -34,7 +36,7 @@ class CategoryControllerTest {
     private CategoryService categoryService;
 
     @Test
-    public void getAllCategories_ReturnAllCategories() throws Exception {
+    public void getAllCategories_ReturnAllCategories_Ok() throws Exception {
         Category category1 = new Category();
         category1.setId(1L);
         category1.setName("qwe");
@@ -60,7 +62,40 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void createCategory_SaveCategoryAndReturnSavedCategory() throws Exception {
+    public void getCategory_ReturnCategory_Ok() throws Exception {
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("qwe");
+
+        CategoryResponseDTO resultCategory = new CategoryResponseDTO();
+        resultCategory.setId(1L);
+        resultCategory.setName("qwe");
+
+        Mockito.when(categoryService.getCategoryBy(Mockito.eq(category.getId()))).thenReturn(category);
+
+        mockMvc.perform(get("/api/v1/places/categories/{id}", category.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(
+                        objectMapper.writeValueAsString(resultCategory)));
+    }
+
+    @Test
+    public void getCategory_ThrowsNoSuchElementException_NotFound() throws Exception {
+        Long id = 1L;
+
+        ExceptionMessageResponseDTO result = new ExceptionMessageResponseDTO("Category not found");
+
+        Mockito.when(categoryService.getCategoryBy(Mockito.eq(id))).thenThrow(NoSuchElementException.class);
+
+        mockMvc.perform(get("/api/v1/places/categories/{id}", id))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().json(
+                        objectMapper.writeValueAsString(result)));
+
+    }
+
+    @Test
+    public void createCategory_SaveCategoryAndReturnSavedCategory_Ok() throws Exception {
         CategoryRequestDTO requestCategory = new CategoryRequestDTO();
         requestCategory.setId(1L);
         requestCategory.setName("qwe");
@@ -85,7 +120,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void deleteCategory_DeleteCategoryAndReturnDeletedCategory() throws Exception {
+    public void deleteCategory_DeleteCategoryAndReturnDeletedCategory_Ok() throws Exception {
         Category category = new Category();
         category.setId(1L);
         category.setKudaGoId(1L);

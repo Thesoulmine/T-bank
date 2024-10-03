@@ -10,13 +10,17 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import ru.tbank.restful.dto.LocationResponseDTO;
+import ru.tbank.restful.dto.ExceptionMessageResponseDTO;
 import ru.tbank.restful.dto.LocationRequestDTO;
 import ru.tbank.restful.dto.LocationResponseDTO;
+import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.mapper.LocationMapperImpl;
 import ru.tbank.restful.service.LocationService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -34,7 +38,7 @@ class LocationControllerTest {
     private LocationService locationService;
 
     @Test
-    public void getAllLocations_ReturnAllLocations() throws Exception {
+    public void getAllLocations_ReturnAllLocations_Ok() throws Exception {
         Location location1 = new Location();
         location1.setId(1L);
         location1.setName("qwe");
@@ -60,7 +64,40 @@ class LocationControllerTest {
     }
 
     @Test
-    public void createLocation_SaveLocationAndReturnSavedLocation() throws Exception {
+    public void getLocation_ReturnLocation_Ok() throws Exception {
+        Location location = new Location();
+        location.setId(1L);
+        location.setName("qwe");
+
+        LocationResponseDTO resultLocation = new LocationResponseDTO();
+        resultLocation.setId(1L);
+        resultLocation.setName("qwe");
+
+        Mockito.when(locationService.getLocationBy(Mockito.eq(location.getId()))).thenReturn(location);
+
+        mockMvc.perform(get("/api/v1/locations/{id}", location.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(
+                        objectMapper.writeValueAsString(resultLocation)));
+    }
+
+    @Test
+    public void getLocation_ThrowsNoSuchElementException_NotFound() throws Exception {
+        Long id = 1L;
+
+        ExceptionMessageResponseDTO result = new ExceptionMessageResponseDTO("Location not found");
+
+        Mockito.when(locationService.getLocationBy(Mockito.eq(id))).thenThrow(NoSuchElementException.class);
+
+        mockMvc.perform(get("/api/v1/locations/{id}", id))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().json(
+                        objectMapper.writeValueAsString(result)));
+
+    }
+
+    @Test
+    public void createLocation_SaveLocationAndReturnSavedLocation_Ok() throws Exception {
         LocationRequestDTO requestLocation = new LocationRequestDTO();
         requestLocation.setName("qwe");
 
@@ -82,7 +119,7 @@ class LocationControllerTest {
     }
 
     @Test
-    public void deleteLocation_DeleteLocationAndReturnDeletedLocation() throws Exception {
+    public void deleteLocation_DeleteLocationAndReturnDeletedLocation_Ok() throws Exception {
         Location location = new Location();
         location.setId(1L);
         location.setName("qwe");

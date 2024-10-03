@@ -10,11 +10,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ru.tbank.restful.dto.LocationResponseDTO;
 import ru.tbank.restful.dto.ExceptionMessageResponseDTO;
 import ru.tbank.restful.dto.LocationRequestDTO;
 import ru.tbank.restful.dto.LocationResponseDTO;
-import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.mapper.LocationMapperImpl;
 import ru.tbank.restful.service.LocationService;
@@ -116,6 +114,50 @@ class LocationControllerTest {
                         .content(objectMapper.writeValueAsString(requestLocation)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(resultLocation)));
+    }
+
+    @Test
+    public void updateLocation_UpdateLocationAndReturnUpdatedLocation_Ok() throws Exception {
+        LocationRequestDTO requestLocation = new LocationRequestDTO();
+        requestLocation.setName("qwe");
+
+        Location location = new Location();
+        location.setId(1L);
+        location.setName("qwe");
+
+        LocationResponseDTO resultLocation = new LocationResponseDTO();
+        resultLocation.setId(1L);
+        resultLocation.setName("qwe");
+
+        Mockito.when(locationService.updateLocation(Mockito.eq(location.getId()), Mockito.any(Location.class)))
+                .thenReturn(location);
+
+        mockMvc.perform(put("/api/v1/locations/{id}", location.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestLocation)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(resultLocation)));
+    }
+
+    @Test
+    public void updateLocation_ThrowsNoSuchElementException_NotFound() throws Exception {
+        LocationRequestDTO requestLocation = new LocationRequestDTO();
+        requestLocation.setName("qwe");
+
+        Location location = new Location();
+        location.setId(1L);
+        location.setName("qwe");
+
+        ExceptionMessageResponseDTO result = new ExceptionMessageResponseDTO("Location not found");
+
+        Mockito.when(locationService.updateLocation(Mockito.eq(location.getId()), Mockito.any(Location.class)))
+                .thenThrow(NoSuchElementException.class);
+
+        mockMvc.perform(put("/api/v1/locations/{id}", location.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestLocation)))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(result)));
     }
 
     @Test

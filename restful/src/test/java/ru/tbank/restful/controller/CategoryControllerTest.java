@@ -89,8 +89,7 @@ class CategoryControllerTest {
 
         mockMvc.perform(get("/api/v1/places/categories/{id}", id))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.content().json(
-                        objectMapper.writeValueAsString(result)));
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(result)));
 
     }
 
@@ -117,6 +116,55 @@ class CategoryControllerTest {
                         .content(objectMapper.writeValueAsString(requestCategory)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(resultCategory)));
+    }
+
+    @Test
+    public void updateCategory_UpdateCategoryAndReturnUpdatedCategory_Ok() throws Exception {
+        CategoryRequestDTO requestCategory = new CategoryRequestDTO();
+        requestCategory.setId(1L);
+        requestCategory.setName("qwe");
+
+        Category category = new Category();
+        category.setId(1L);
+        category.setKudaGoId(1L);
+        category.setName("qwe");
+
+        CategoryResponseDTO resultCategory = new CategoryResponseDTO();
+        resultCategory.setId(1L);
+        resultCategory.setKudaGoId(1L);
+        resultCategory.setName("qwe");
+
+        Mockito.when(categoryService.updateCategory(Mockito.eq(category.getId()), Mockito.any(Category.class)))
+                .thenReturn(category);
+
+        mockMvc.perform(put("/api/v1/places/categories/{id}", category.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestCategory)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(resultCategory)));
+    }
+
+    @Test
+    public void updateCategory_ThrowsNoSuchElementException_NotFound() throws Exception {
+        CategoryRequestDTO requestCategory = new CategoryRequestDTO();
+        requestCategory.setId(1L);
+        requestCategory.setName("qwe");
+
+        Category category = new Category();
+        category.setId(1L);
+        category.setKudaGoId(1L);
+        category.setName("qwe");
+
+        ExceptionMessageResponseDTO result = new ExceptionMessageResponseDTO("Category not found");
+
+        Mockito.when(categoryService.updateCategory(Mockito.eq(category.getId()), Mockito.any(Category.class)))
+                .thenThrow(NoSuchElementException.class);
+
+        mockMvc.perform(put("/api/v1/places/categories/{id}", category.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestCategory)))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(result)));
     }
 
     @Test

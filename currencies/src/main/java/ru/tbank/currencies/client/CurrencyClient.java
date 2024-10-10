@@ -1,7 +1,10 @@
 package ru.tbank.currencies.client;
 
-import ru.tbank.currencies.dto.CurrencyCentralBankRequestDTO;
+import ru.tbank.currencies.entity.Currency;
+
+import java.util.List;
 
 public interface CurrencyClient {
-    CurrencyCentralBankRequestDTO getDailyRubCurrencyRates();
+
+    List<Currency> getDailyRubCurrencyRates();
 }

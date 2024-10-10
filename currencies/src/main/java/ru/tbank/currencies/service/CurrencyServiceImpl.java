@@ -2,15 +2,14 @@ package ru.tbank.currencies.service;
 
 import org.springframework.stereotype.Service;
 import ru.tbank.currencies.client.CurrencyClient;
-import ru.tbank.currencies.dto.CurrencyCentralBankRequestDTO.Valute;
 import ru.tbank.currencies.dto.CurrencyConvertResponseDTO;
 import ru.tbank.currencies.dto.CurrencyRateResponseDTO;
+import ru.tbank.currencies.entity.Currency;
 import ru.tbank.currencies.exception.UnsupportedClientCurrencyCodeException;
 import ru.tbank.currencies.exception.UnsupportedCurrencyCodeException;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.Currency;
 import java.util.List;
 
 @Service
@@ -26,10 +25,10 @@ public class CurrencyServiceImpl implements CurrencyService {
     public CurrencyRateResponseDTO getCurrencyRate(String currencyCode) {
         verifyCurrencyCode(currencyCode);
 
-        List<Valute> valutes = currencyClient.getDailyRubCurrencyRates().getValutes();
-        Valute valute = getValuteInByOrElseThrow(valutes, currencyCode);
+        List<Currency> currencyRates = currencyClient.getDailyRubCurrencyRates();
+        Currency currencyRate = getValuteInByOrElseThrow(currencyRates, currencyCode);
 
-        return new CurrencyRateResponseDTO(currencyCode, valute.getVunitRate());
+        return new CurrencyRateResponseDTO(currencyCode, currencyRate.getRate());
     }
 
     @Override
@@ -45,30 +44,30 @@ public class CurrencyServiceImpl implements CurrencyService {
                 fromCurrency, toCurrency, calculateConvertedAmount(fromCurrency, toCurrency, amount));
     }
 
-    private Valute getValuteInByOrElseThrow(List<Valute> valutes, String currencyCode) {
+    private Currency getValuteInByOrElseThrow(List<Currency> currencyRates, String currencyCode) {
         if (currencyCode.equals("RUB")) {
-            return new Valute("RUB", BigDecimal.ONE);
+            return new Currency("RUB", "RUB", BigDecimal.ONE);
         }
 
-        return valutes.stream()
-                .filter(element -> element.getCharCode().equals(currencyCode))
+        return currencyRates.stream()
+                .filter(element -> element.getToCurrency().equals(currencyCode))
                 .findFirst().orElseThrow(() -> new UnsupportedClientCurrencyCodeException("Unsupported client currency code"));
     }
 
     private void verifyCurrencyCode(String currencyCode) {
         try {
-            Currency.getInstance(currencyCode);
+            java.util.Currency.getInstance(currencyCode);
         } catch (IllegalArgumentException exception) {
             throw new UnsupportedCurrencyCodeException("Unsupported currency code");
         }
     }
 
     private BigDecimal calculateConvertedAmount(String fromCurrency, String toCurrency, BigDecimal amount) {
-        List<Valute> valutes = currencyClient.getDailyRubCurrencyRates().getValutes();
-        Valute toValute = getValuteInByOrElseThrow(valutes, toCurrency);
-        Valute fromValute = getValuteInByOrElseThrow(valutes, fromCurrency);
+        List<Currency> currencyRates = currencyClient.getDailyRubCurrencyRates();
+        Currency toCurrencyRate = getValuteInByOrElseThrow(currencyRates, toCurrency);
+        Currency fromCurrencyRate = getValuteInByOrElseThrow(currencyRates, fromCurrency);
 
-        return amount.multiply(fromValute.getVunitRate())
-                .divide(toValute.getVunitRate(), new MathContext(5));
+        return amount.multiply(fromCurrencyRate.getRate())
+                .divide(toCurrencyRate.getRate(), new MathContext(5));
     }
 }

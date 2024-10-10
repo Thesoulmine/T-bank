@@ -7,7 +7,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import ru.tbank.currencies.dto.CurrencyCentralBankRequestDTO;
+import ru.tbank.currencies.entity.Currency;
 import ru.tbank.currencies.exception.CurrencyClientUnavailableException;
+
+import java.util.List;
+import java.util.Objects;
 
 @Component
 public class CurrencyCentralBankClient implements CurrencyClient {
@@ -21,15 +25,19 @@ public class CurrencyCentralBankClient implements CurrencyClient {
     @Cacheable("currencies")
     @CircuitBreaker(name = "central-bank-client", fallbackMethod = "circuitBreakerFallback")
     @Override
-    public CurrencyCentralBankRequestDTO getDailyRubCurrencyRates() {
-        return restClient.get()
+    public List<Currency> getDailyRubCurrencyRates() {
+        CurrencyCentralBankRequestDTO requestDTO = restClient.get()
                 .uri("XML_daily.asp")
                 .accept(MediaType.APPLICATION_XML)
                 .retrieve()
                 .body(CurrencyCentralBankRequestDTO.class);
+
+        return Objects.requireNonNull(requestDTO).getValutes().stream()
+                .map(element -> new Currency("RUB", element.getCharCode(), element.getVunitRate()))
+                .toList();
     }
 
-    public CurrencyCentralBankRequestDTO circuitBreakerFallback(Throwable throwable) {
+    public List<Currency> circuitBreakerFallback(Throwable throwable) {
         throw new CurrencyClientUnavailableException("Central bank service unavailable");
     }
 }

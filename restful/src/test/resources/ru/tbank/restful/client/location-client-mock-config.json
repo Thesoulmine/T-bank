@@ -1,0 +1,26 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/locations/"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "jsonBody": [
+          {
+            "slug": "qwe",
+            "name": "qwe"
+          },
+          {
+            "slug": "asd",
+            "name": "asd"
+          }
+        ]
+      }
+    }
+  ]
+}

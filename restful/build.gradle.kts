@@ -2,6 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.3.4"
     id("io.spring.dependency-management") version "1.1.6"
+    jacoco
 }
 
 group = "ru.tbank"
@@ -33,8 +34,26 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation(project(":timed-starter"))
+    testImplementation("org.testcontainers:junit-jupiter:1.20.2")
+    implementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-14")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    reports {
+        html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+    }
+
+    classDirectories.setFrom(classDirectories.files.map {
+        fileTree(it).matching {
+            exclude(
+                "**/dto",
+                "**/mapper")
+        }
+    })
 }

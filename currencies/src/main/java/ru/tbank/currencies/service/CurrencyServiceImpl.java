@@ -6,7 +6,7 @@ import ru.tbank.currencies.dto.CurrencyConvertResponseDTO;
 import ru.tbank.currencies.dto.CurrencyRateResponseDTO;
 import ru.tbank.currencies.entity.Currency;
 import ru.tbank.currencies.exception.UnsupportedClientCurrencyCodeException;
-import ru.tbank.currencies.exception.UnsupportedCurrencyCodeException;
+import ru.tbank.currencies.exception.InvalidCurrencyCodeException;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -58,7 +58,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         try {
             java.util.Currency.getInstance(currencyCode);
         } catch (IllegalArgumentException exception) {
-            throw new UnsupportedCurrencyCodeException("Unsupported currency code");
+            throw new InvalidCurrencyCodeException("Invalid currency code");
         }
     }
 

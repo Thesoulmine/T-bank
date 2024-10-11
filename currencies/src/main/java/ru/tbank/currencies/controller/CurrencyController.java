@@ -16,7 +16,7 @@ import ru.tbank.currencies.dto.CurrencyRateResponseDTO;
 import ru.tbank.currencies.dto.ExceptionMessageResponseDTO;
 import ru.tbank.currencies.exception.CurrencyClientUnavailableException;
 import ru.tbank.currencies.exception.UnsupportedClientCurrencyCodeException;
-import ru.tbank.currencies.exception.UnsupportedCurrencyCodeException;
+import ru.tbank.currencies.exception.InvalidCurrencyCodeException;
 import ru.tbank.currencies.service.CurrencyService;
 
 @Tag(name = "Currency controller", description = "Currency operations")
@@ -63,7 +63,7 @@ public class CurrencyController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({MethodArgumentNotValidException.class, UnsupportedCurrencyCodeException.class})
+    @ExceptionHandler({MethodArgumentNotValidException.class, InvalidCurrencyCodeException.class})
     public ExceptionMessageResponseDTO badRequestHandler(Exception exception) {
         return new ExceptionMessageResponseDTO("400", exception.getMessage());
     }

@@ -1,13 +1,7 @@
 package ru.tbank.currencies.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+public record ExceptionMessageResponseDTO(
+        String code,
+        String message) {
 
-@AllArgsConstructor
-@Data
-public class ExceptionMessageResponseDTO {
-
-    private String code;
-
-    private String message;
 }

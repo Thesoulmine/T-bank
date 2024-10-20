@@ -1,6 +1,7 @@
 package ru.tbank.currencies.client;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
@@ -13,14 +14,12 @@ import ru.tbank.currencies.exception.CurrencyClientUnavailableException;
 import java.util.List;
 import java.util.Objects;
 
+@AllArgsConstructor
 @Component
 public class CurrencyCentralBankClient implements CurrencyClient {
 
+    @Qualifier("CentralBankClient")
     private final RestClient restClient;
-
-    public CurrencyCentralBankClient(@Qualifier("CentralBankClient") RestClient restClient) {
-        this.restClient = restClient;
-    }
 
     @Cacheable("currencies")
     @CircuitBreaker(name = "central-bank-client", fallbackMethod = "circuitBreakerFallback")

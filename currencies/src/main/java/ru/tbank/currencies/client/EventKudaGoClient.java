@@ -1,28 +1,31 @@
-package ru.tbank.restful.client;
+package ru.tbank.currencies.client;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import ru.tbank.restful.dto.EventKudaGoClientResponseDTO;
-import ru.tbank.restful.entity.Event;
+import ru.tbank.currencies.dto.EventKudaGoClientResponseDTO;
+import ru.tbank.currencies.entity.Event;
+import ru.tbank.currencies.mapper.EventMapper;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
+@AllArgsConstructor
 @Component
 public class EventKudaGoClient implements EventClient {
 
+    @Qualifier("kudaGoRestClient")
     private final RestClient restClient;
 
-    public EventKudaGoClient(@Qualifier("kudaGoRestClient") RestClient restClient) {
-        this.restClient = restClient;
-    }
+    private final EventMapper eventMapper;
 
+    @Override
     public List<Event> getEventsBy(LocalDate dateFrom, LocalDate dateTo) {
-        restClient
+        EventKudaGoClientResponseDTO response = restClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
                         .path("events/")
@@ -33,6 +36,8 @@ public class EventKudaGoClient implements EventClient {
                         .queryParam("actual_until", Timestamp.valueOf(dateTo.atTime(LocalTime.MAX)))
                         .build())
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<EventKudaGoClientResponseDTO>>() {});
+                .body(EventKudaGoClientResponseDTO.class);
+
+        return eventMapper.toEntity(Objects.requireNonNull(response).getResults());
     }
 }

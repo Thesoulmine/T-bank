@@ -7,7 +7,7 @@ timed:
   enabled: true
 executor-service:
   fixed-repository-initialization:
-    thread-number: 10
+    thread-number: 5
   scheduled-repository-initialization:
     refresh-interval: PT30M
 

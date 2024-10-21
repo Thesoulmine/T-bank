@@ -64,15 +64,12 @@ public class RepositoryInitializationEventListener implements ApplicationListene
     }
 
     private void initializeData() {
-        Instant methodStartTime = Instant.now();
         log.info("Repositories initialization start");
+
         initializeCategories();
         initializeLocations();
 
         log.info("Repositories initialization was successful");
-
-        Instant methodEndTime = Instant.now();
-        System.out.println(Duration.between(methodStartTime, methodEndTime).getNano());
     }
 
     private void initializeCategories() {

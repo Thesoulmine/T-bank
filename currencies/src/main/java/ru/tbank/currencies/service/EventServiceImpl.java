@@ -3,6 +3,7 @@ package ru.tbank.currencies.service;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import ru.tbank.currencies.client.EventClient;
 import ru.tbank.currencies.entity.Event;
 
@@ -60,11 +61,13 @@ public class EventServiceImpl implements EventService {
         LocalDate finalDateTo = dateTo;
 
         Mono<List<Event>> eventsMono = Mono.fromCallable(() ->
-                eventClient.getEventsBy(finalDateFrom, finalDateTo));
+                eventClient.getEventsBy(finalDateFrom, finalDateTo))
+                .subscribeOn(Schedulers.boundedElastic());
 
         Mono<BigDecimal> convertedAmountMono = Mono.fromCallable(() ->
                 currencyService.convertCurrency(currency, "RUB", BigDecimal.valueOf(budget))
-                        .getConvertedAmount());
+                        .getConvertedAmount())
+                .subscribeOn(Schedulers.boundedElastic());
 
         return Mono.zip(eventsMono, convertedAmountMono)
                 .flatMap(tuple ->

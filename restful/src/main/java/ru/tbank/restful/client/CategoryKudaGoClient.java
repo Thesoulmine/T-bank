@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import ru.tbank.restful.dto.CategoryRequestDTO;
 import ru.tbank.restful.entity.Category;
-import ru.tbank.restful.limiter.KudaGoRateLimiter;
+import ru.tbank.restful.limiter.RateLimiter;
 import ru.tbank.restful.mapper.CategoryMapper;
 
 import java.util.List;
@@ -16,20 +16,20 @@ public class CategoryKudaGoClient implements CategoryClient {
 
     private final RestClient restClient;
     private final CategoryMapper categoryMapper;
-    private final KudaGoRateLimiter kudaGoRateLimiter;
+    private final RateLimiter rateLimiter;
 
     public CategoryKudaGoClient(@Qualifier("kudaGoRestClient") RestClient restClient,
                                 CategoryMapper categoryMapper,
-                                KudaGoRateLimiter kudaGoRateLimiter) {
+                                @Qualifier("KudaGoRateLimiter") RateLimiter rateLimiter) {
         this.restClient = restClient;
         this.categoryMapper = categoryMapper;
-        this.kudaGoRateLimiter = kudaGoRateLimiter;
+        this.rateLimiter = rateLimiter;
     }
 
     @Override
     public List<Category> getAllCategories() {
         try {
-            kudaGoRateLimiter.acquire();
+            rateLimiter.acquire();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -43,7 +43,7 @@ public class CategoryKudaGoClient implements CategoryClient {
                     .retrieve()
                     .body(new ParameterizedTypeReference<>() {});
         } finally {
-            kudaGoRateLimiter.release();
+            rateLimiter.release();
         }
 
         return categoryMapper.toEntity(response);

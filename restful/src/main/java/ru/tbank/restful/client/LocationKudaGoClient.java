@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import ru.tbank.restful.dto.LocationRequestDTO;
 import ru.tbank.restful.entity.Location;
-import ru.tbank.restful.limiter.KudaGoRateLimiter;
+import ru.tbank.restful.limiter.RateLimiter;
 import ru.tbank.restful.mapper.LocationMapper;
 
 import java.util.List;
@@ -16,20 +16,20 @@ public class LocationKudaGoClient implements LocationClient {
 
     private final RestClient restClient;
     private final LocationMapper locationMapper;
-    private final KudaGoRateLimiter kudaGoRateLimiter;
+    private final RateLimiter rateLimiter;
 
     public LocationKudaGoClient(@Qualifier("kudaGoRestClient") RestClient restClient,
                                 LocationMapper locationMapper,
-                                KudaGoRateLimiter kudaGoRateLimiter) {
+                                @Qualifier("KudaGoRateLimiter") RateLimiter rateLimiter) {
         this.restClient = restClient;
         this.locationMapper = locationMapper;
-        this.kudaGoRateLimiter = kudaGoRateLimiter;
+        this.rateLimiter = rateLimiter;
     }
 
     @Override
     public List<Location> getAllLocations() {
         try {
-            kudaGoRateLimiter.acquire();
+            rateLimiter.acquire();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -43,7 +43,7 @@ public class LocationKudaGoClient implements LocationClient {
                     .retrieve()
                     .body(new ParameterizedTypeReference<>() {});
         } finally {
-            kudaGoRateLimiter.release();
+            rateLimiter.release();
         }
 
         return locationMapper.toEntity(response);

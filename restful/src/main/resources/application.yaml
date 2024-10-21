@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: restful
+  profiles:
+    default: dev
+timed:
+  enabled: true
+executor-service:
+  fixed-repository-initialization:
+    thread-number: 10
+  scheduled-repository-initialization:
+    refresh-interval: PT30M
+
+

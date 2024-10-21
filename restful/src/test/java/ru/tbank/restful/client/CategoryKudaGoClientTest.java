@@ -7,6 +7,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.wiremock.integrations.testcontainers.WireMockContainer;
 import ru.tbank.restful.entity.Category;
+import ru.tbank.restful.limiter.KudaGoRateLimiter;
 import ru.tbank.restful.mapper.CategoryMapperImpl;
 
 import java.util.List;
@@ -28,7 +29,7 @@ class CategoryKudaGoClientTest {
     @BeforeAll
     public static void beforeAll() {
         RestClient restClient = RestClient.create(wireMockContainer.getBaseUrl());
-        categoryClient = new CategoryKudaGoClient(restClient, new CategoryMapperImpl());
+        categoryClient = new CategoryKudaGoClient(restClient, new CategoryMapperImpl(), new KudaGoRateLimiter(1));
     }
 
     @Test

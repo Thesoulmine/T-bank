@@ -7,6 +7,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.wiremock.integrations.testcontainers.WireMockContainer;
 import ru.tbank.restful.entity.Location;
+import ru.tbank.restful.limiter.KudaGoRateLimiter;
 import ru.tbank.restful.mapper.LocationMapperImpl;
 
 import java.util.List;
@@ -28,7 +29,7 @@ class LocationKudaGoClientTest {
     @BeforeAll
     public static void beforeAll() {
         RestClient restClient = RestClient.create(wireMockContainer.getBaseUrl());
-        locationClient = new LocationKudaGoClient(restClient, new LocationMapperImpl());
+        locationClient = new LocationKudaGoClient(restClient, new LocationMapperImpl(), new KudaGoRateLimiter(1));
     }
 
     @Test

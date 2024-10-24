@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: restful
+  profiles:
+    default: dev
+timed:
+  enabled: true
+executor-service:
+  fixed-repository-initialization:
+    thread-number: 5
+  scheduled-repository-initialization:
+    refresh-interval: PT30M
+limiter:
+  kuda-go:
+    max-concurrent-requests: 2
+

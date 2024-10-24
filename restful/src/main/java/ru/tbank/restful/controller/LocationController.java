@@ -1,5 +1,6 @@
 package ru.tbank.restful.controller;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,8 @@ public class LocationController {
     private final LocationService locationService;
     private final LocationMapper locationMapper;
 
-    public LocationController(LocationService locationService,
+    public LocationController(@Qualifier("LocationDataBaseService")
+                              LocationService locationService,
                               LocationMapper locationMapper) {
         this.locationService = locationService;
         this.locationMapper = locationMapper;

@@ -1,11 +1,13 @@
 package ru.tbank.restful.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.repository.Repository;
 
 import java.util.List;
 
+@Qualifier("LocationInMemoryService")
 @Service
 public class LocationInMemoryService implements LocationService {
 

@@ -6,4 +6,6 @@ import ru.tbank.restful.entity.Event;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
+
+    Event deleteBy(Long id);
 }

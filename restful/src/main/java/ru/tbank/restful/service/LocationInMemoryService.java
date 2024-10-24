@@ -7,11 +7,11 @@ import ru.tbank.restful.repository.Repository;
 import java.util.List;
 
 @Service
-public class LocationServiceImpl implements LocationService {
+public class LocationInMemoryService implements LocationService {
 
     private final Repository<Location> locationRepository;
 
-    public LocationServiceImpl(Repository<Location> locationRepository) {
+    public LocationInMemoryService(Repository<Location> locationRepository) {
         this.locationRepository = locationRepository;
     }
 

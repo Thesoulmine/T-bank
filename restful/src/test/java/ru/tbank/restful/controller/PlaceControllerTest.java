@@ -10,21 +10,21 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ru.tbank.restful.dto.CategoryRequestDTO;
-import ru.tbank.restful.dto.CategoryResponseDTO;
+import ru.tbank.restful.dto.PlaceRequestDTO;
+import ru.tbank.restful.dto.PlaceResponseDTO;
 import ru.tbank.restful.dto.ExceptionMessageResponseDTO;
-import ru.tbank.restful.entity.Category;
-import ru.tbank.restful.mapper.CategoryMapperImpl;
-import ru.tbank.restful.service.CategoryService;
+import ru.tbank.restful.entity.Place;
+import ru.tbank.restful.mapper.PlaceMapperImpl;
+import ru.tbank.restful.service.PlaceService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
-@Import(CategoryMapperImpl.class)
-@WebMvcTest(CategoryController.class)
-class CategoryControllerTest {
+@Import(PlaceMapperImpl.class)
+@WebMvcTest(PlaceController.class)
+class PlaceControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,27 +33,27 @@ class CategoryControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private CategoryService categoryService;
+    private PlaceService placeService;
 
     @Test
     public void getAllCategories_ReturnAllCategories_Ok() throws Exception {
-        Category category1 = new Category();
-        category1.setId(1L);
-        category1.setName("qwe");
+        Place place1 = new Place();
+        place1.setId(1L);
+        place1.setName("qwe");
 
-        Category category2 = new Category();
-        category2.setId(2L);
-        category2.setName("asd");
+        Place place2 = new Place();
+        place2.setId(2L);
+        place2.setName("asd");
 
-        CategoryResponseDTO resultCategory1 = new CategoryResponseDTO();
+        PlaceResponseDTO resultCategory1 = new PlaceResponseDTO();
         resultCategory1.setId(1L);
         resultCategory1.setName("qwe");
 
-        CategoryResponseDTO resultCategory2 = new CategoryResponseDTO();
+        PlaceResponseDTO resultCategory2 = new PlaceResponseDTO();
         resultCategory2.setId(2L);
         resultCategory2.setName("asd");
 
-        Mockito.when(categoryService.getAllCategories()).thenReturn(List.of(category1, category2));
+        Mockito.when(placeService.getAllCategories()).thenReturn(List.of(place1, place2));
 
         mockMvc.perform(get("/api/v1/places/categories"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -63,17 +63,17 @@ class CategoryControllerTest {
 
     @Test
     public void getCategory_ReturnCategory_Ok() throws Exception {
-        Category category = new Category();
-        category.setId(1L);
-        category.setName("qwe");
+        Place place = new Place();
+        place.setId(1L);
+        place.setName("qwe");
 
-        CategoryResponseDTO resultCategory = new CategoryResponseDTO();
+        PlaceResponseDTO resultCategory = new PlaceResponseDTO();
         resultCategory.setId(1L);
         resultCategory.setName("qwe");
 
-        Mockito.when(categoryService.getCategoryBy(Mockito.eq(category.getId()))).thenReturn(category);
+        Mockito.when(placeService.getCategoryBy(Mockito.eq(place.getId()))).thenReturn(place);
 
-        mockMvc.perform(get("/api/v1/places/categories/{id}", category.getId()))
+        mockMvc.perform(get("/api/v1/places/categories/{id}", place.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(
                         objectMapper.writeValueAsString(resultCategory)));
@@ -85,7 +85,7 @@ class CategoryControllerTest {
 
         ExceptionMessageResponseDTO result = new ExceptionMessageResponseDTO("Category not found");
 
-        Mockito.when(categoryService.getCategoryBy(Mockito.eq(id))).thenThrow(NoSuchElementException.class);
+        Mockito.when(placeService.getCategoryBy(Mockito.eq(id))).thenThrow(NoSuchElementException.class);
 
         mockMvc.perform(get("/api/v1/places/categories/{id}", id))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -95,21 +95,21 @@ class CategoryControllerTest {
 
     @Test
     public void createCategory_SaveCategoryAndReturnSavedCategory_Ok() throws Exception {
-        CategoryRequestDTO requestCategory = new CategoryRequestDTO();
+        PlaceRequestDTO requestCategory = new PlaceRequestDTO();
         requestCategory.setId(1L);
         requestCategory.setName("qwe");
 
-        Category category = new Category();
-        category.setId(1L);
-        category.setKudaGoId(1L);
-        category.setName("qwe");
+        Place place = new Place();
+        place.setId(1L);
+        place.setKudaGoId(1L);
+        place.setName("qwe");
 
-        CategoryResponseDTO resultCategory = new CategoryResponseDTO();
+        PlaceResponseDTO resultCategory = new PlaceResponseDTO();
         resultCategory.setId(1L);
         resultCategory.setKudaGoId(1L);
         resultCategory.setName("qwe");
 
-        Mockito.when(categoryService.saveCategory(Mockito.any(Category.class))).thenReturn(category);
+        Mockito.when(placeService.saveCategory(Mockito.any(Place.class))).thenReturn(place);
 
         mockMvc.perform(post("/api/v1/places/categories")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -120,24 +120,24 @@ class CategoryControllerTest {
 
     @Test
     public void updateCategory_UpdateCategoryAndReturnUpdatedCategory_Ok() throws Exception {
-        CategoryRequestDTO requestCategory = new CategoryRequestDTO();
+        PlaceRequestDTO requestCategory = new PlaceRequestDTO();
         requestCategory.setId(1L);
         requestCategory.setName("qwe");
 
-        Category category = new Category();
-        category.setId(1L);
-        category.setKudaGoId(1L);
-        category.setName("qwe");
+        Place place = new Place();
+        place.setId(1L);
+        place.setKudaGoId(1L);
+        place.setName("qwe");
 
-        CategoryResponseDTO resultCategory = new CategoryResponseDTO();
+        PlaceResponseDTO resultCategory = new PlaceResponseDTO();
         resultCategory.setId(1L);
         resultCategory.setKudaGoId(1L);
         resultCategory.setName("qwe");
 
-        Mockito.when(categoryService.updateCategory(Mockito.eq(category.getId()), Mockito.any(Category.class)))
-                .thenReturn(category);
+        Mockito.when(placeService.updateCategory(Mockito.eq(place.getId()), Mockito.any(Place.class)))
+                .thenReturn(place);
 
-        mockMvc.perform(put("/api/v1/places/categories/{id}", category.getId())
+        mockMvc.perform(put("/api/v1/places/categories/{id}", place.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestCategory)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -146,21 +146,21 @@ class CategoryControllerTest {
 
     @Test
     public void updateCategory_ThrowsNoSuchElementException_NotFound() throws Exception {
-        CategoryRequestDTO requestCategory = new CategoryRequestDTO();
+        PlaceRequestDTO requestCategory = new PlaceRequestDTO();
         requestCategory.setId(1L);
         requestCategory.setName("qwe");
 
-        Category category = new Category();
-        category.setId(1L);
-        category.setKudaGoId(1L);
-        category.setName("qwe");
+        Place place = new Place();
+        place.setId(1L);
+        place.setKudaGoId(1L);
+        place.setName("qwe");
 
         ExceptionMessageResponseDTO result = new ExceptionMessageResponseDTO("Category not found");
 
-        Mockito.when(categoryService.updateCategory(Mockito.eq(category.getId()), Mockito.any(Category.class)))
+        Mockito.when(placeService.updateCategory(Mockito.eq(place.getId()), Mockito.any(Place.class)))
                 .thenThrow(NoSuchElementException.class);
 
-        mockMvc.perform(put("/api/v1/places/categories/{id}", category.getId())
+        mockMvc.perform(put("/api/v1/places/categories/{id}", place.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestCategory)))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -169,19 +169,19 @@ class CategoryControllerTest {
 
     @Test
     public void deleteCategory_DeleteCategoryAndReturnDeletedCategory_Ok() throws Exception {
-        Category category = new Category();
-        category.setId(1L);
-        category.setKudaGoId(1L);
-        category.setName("qwe");
+        Place place = new Place();
+        place.setId(1L);
+        place.setKudaGoId(1L);
+        place.setName("qwe");
 
-        CategoryResponseDTO resultCategory = new CategoryResponseDTO();
+        PlaceResponseDTO resultCategory = new PlaceResponseDTO();
         resultCategory.setId(1L);
         resultCategory.setKudaGoId(1L);
         resultCategory.setName("qwe");
 
-        Mockito.when(categoryService.deleteCategoryBy(Mockito.eq(category.getId()))).thenReturn(category);
+        Mockito.when(placeService.deleteCategoryBy(Mockito.eq(place.getId()))).thenReturn(place);
 
-        mockMvc.perform(delete("/api/v1/places/categories/{id}", category.getId()))
+        mockMvc.perform(delete("/api/v1/places/categories/{id}", place.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(resultCategory)));
     }

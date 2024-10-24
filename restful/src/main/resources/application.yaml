@@ -3,6 +3,10 @@ spring:
     name: restful
   profiles:
     default: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: root
+    password: root
 timed:
   enabled: true
 executor-service:

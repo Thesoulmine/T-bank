@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: Shamil
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: place_id
+            baseTableName: events
+            constraintName: FK_EVENT_ON_PLACE
+            referencedColumnNames: id
+            referencedTableName: locations

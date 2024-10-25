@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import ru.tbank.restful.dto.EventRequestDTO;
 import ru.tbank.restful.dto.EventResponseDTO;
+import ru.tbank.restful.dto.LocationResponseDTO;
 import ru.tbank.restful.entity.Event;
 import ru.tbank.restful.entity.Location;
 
@@ -25,6 +26,9 @@ public interface EventMapper {
     List<EventResponseDTO> toResponseDTO(List<Event> eventList);
 
     EventRequestDTO toRequestDTO(Event event);
+
+    //@Mapping(target = "events", ignore = true)
+    //LocationResponseDTO toLocationResponseDTO(Location location);
 
     @Named("locationIdToLocation")
     default Location locationIdToLocation(Long locationId) {

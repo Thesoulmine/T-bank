@@ -16,4 +16,14 @@ public class EventResponseDTO {
     private LocalDate date;
 
     private LocationResponseDTO location;
+
+    @Data
+    public static class LocationResponseDTO {
+
+        private Long id;
+
+        private String slug;
+
+        private String name;
+    }
 }

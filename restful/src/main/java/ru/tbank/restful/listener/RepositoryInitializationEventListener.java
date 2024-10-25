@@ -16,7 +16,6 @@ import ru.tbank.restful.service.LocationService;
 import ru.tbank.timedstarter.annotation.Timed;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -37,6 +36,7 @@ public class RepositoryInitializationEventListener implements ApplicationListene
             CategoryClient categoryClient,
             CategoryService categoryService,
             LocationClient locationClient,
+            @Qualifier("LocationInMemoryService")
             LocationService locationService,
             @Qualifier("fixedRepositoryInitializationExecutorService")
             ExecutorService fixedRepositoryInitializationExecutorService,

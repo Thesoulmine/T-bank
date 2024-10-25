@@ -1,7 +1,11 @@
 package ru.tbank.restful.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDate;
@@ -24,8 +28,8 @@ public class Event {
     private LocalDate date;
 
     @ManyToOne
-    @JoinColumn(name = "place_id")
-    private Location place;
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     @Override
     public final boolean equals(Object o) {

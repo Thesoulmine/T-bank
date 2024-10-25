@@ -58,7 +58,7 @@ public class CustomLinkedList<E> implements CustomList<E> {
                 temp = temp.next;
             }
         }
-        
+
         return false;
     }
 

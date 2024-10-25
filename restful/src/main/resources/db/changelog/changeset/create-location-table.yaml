@@ -27,5 +27,5 @@ databaseChangeLog:
       changes:
         - createSequence:
             incrementBy: 50
-            sequenceName: location_seq
+            sequenceName: locations_seq
             startValue: 1

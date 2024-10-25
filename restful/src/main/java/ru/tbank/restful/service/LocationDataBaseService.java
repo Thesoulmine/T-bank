@@ -24,7 +24,7 @@ public class LocationDataBaseService implements LocationService {
 
     @Override
     public Location getLocationBy(Long id) {
-        return locationRepository.findById(id).orElseThrow();
+        return locationRepository.findByWithEvents(id).orElseThrow();
     }
 
     @Override
@@ -40,6 +40,6 @@ public class LocationDataBaseService implements LocationService {
 
     @Override
     public Location deleteLocationBy(Long id) {
-        return locationRepository.deleteBy(id);
+        return locationRepository.deleteLocationById(id);
     }
 }

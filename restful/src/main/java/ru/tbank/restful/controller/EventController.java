@@ -1,17 +1,17 @@
 package ru.tbank.restful.controller;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.tbank.restful.dto.ExceptionMessageResponseDTO;
 import ru.tbank.restful.dto.EventRequestDTO;
 import ru.tbank.restful.dto.EventResponseDTO;
+import ru.tbank.restful.dto.ExceptionMessageResponseDTO;
+import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.mapper.EventMapper;
 import ru.tbank.restful.service.EventService;
-import ru.tbank.restful.service.EventService;
-import ru.tbank.timedstarter.annotation.Timed;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -31,6 +31,18 @@ public class EventController {
     @GetMapping
     public List<EventResponseDTO> getAllEvents() {
         return eventMapper.toResponseDTO(eventService.getAllEvents());
+    }
+
+    @GetMapping("/filter")
+    public List<EventResponseDTO> getAllEventsByFilter(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Location location,
+            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+            @RequestParam(required = false) LocalDate fromDate,
+            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+            @RequestParam(required = false) LocalDate toDate) {
+        return eventMapper.toResponseDTO(
+                eventService.getAllEventsBy(name, location, fromDate, toDate));
     }
 
     @GetMapping("/{id}")

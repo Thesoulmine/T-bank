@@ -41,7 +41,8 @@ public class LocationKudaGoClient implements LocationClient {
                     .get()
                     .uri("locations/")
                     .retrieve()
-                    .body(new ParameterizedTypeReference<>() {});
+                    .body(new ParameterizedTypeReference<>() {
+                    });
         } finally {
             rateLimiter.release();
         }

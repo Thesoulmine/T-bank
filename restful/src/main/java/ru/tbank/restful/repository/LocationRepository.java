@@ -10,8 +10,8 @@ import java.util.Optional;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
 
-    Location deleteBy(Long id);
+    Location deleteLocationById(Long id);
 
     @Query("SELECT l FROM Location l JOIN FETCH l.events WHERE l.id = :id")
-    Optional<Location> findByIdWithEvents(Long id);
+    Optional<Location> findByWithEvents(Long id);
 }

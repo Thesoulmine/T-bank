@@ -56,7 +56,8 @@ tasks.jacocoTestReport {
         fileTree(it).matching {
             exclude(
                 "**/dto",
-                "**/mapper")
+                "**/mapper"
+            )
         }
     })
 }

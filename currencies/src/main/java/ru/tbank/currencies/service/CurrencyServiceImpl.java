@@ -5,8 +5,8 @@ import ru.tbank.currencies.client.CurrencyClient;
 import ru.tbank.currencies.dto.CurrencyConvertResponseDTO;
 import ru.tbank.currencies.dto.CurrencyRateResponseDTO;
 import ru.tbank.currencies.entity.Currency;
-import ru.tbank.currencies.exception.UnsupportedClientCurrencyCodeException;
 import ru.tbank.currencies.exception.InvalidCurrencyCodeException;
+import ru.tbank.currencies.exception.UnsupportedClientCurrencyCodeException;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

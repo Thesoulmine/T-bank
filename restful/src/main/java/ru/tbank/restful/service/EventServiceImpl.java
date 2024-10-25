@@ -2,8 +2,10 @@ package ru.tbank.restful.service;
 
 import org.springframework.stereotype.Service;
 import ru.tbank.restful.entity.Event;
+import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.repository.EventRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,6 +20,16 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getAllEvents() {
         return eventRepository.findAll();
+    }
+
+    @Override
+    public List<Event> getAllEventsBy(
+            String name,
+            Location location,
+            LocalDate fromDate,
+            LocalDate toDate) {
+        return eventRepository.findAll(
+                EventRepository.buildSpecification(name, location, fromDate, toDate));
     }
 
     @Override
@@ -38,6 +50,6 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event deleteEventBy(Long id) {
-        return eventRepository.deleteBy(id);
+        return eventRepository.deleteEventById(id);
     }
 }

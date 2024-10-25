@@ -10,13 +10,13 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import ru.tbank.currencies.dto.CurrencyConvertResponseDTO;
 import ru.tbank.currencies.dto.CurrencyConvertRequestDTO;
+import ru.tbank.currencies.dto.CurrencyConvertResponseDTO;
 import ru.tbank.currencies.dto.CurrencyRateResponseDTO;
 import ru.tbank.currencies.dto.ExceptionMessageResponseDTO;
 import ru.tbank.currencies.exception.CurrencyClientUnavailableException;
-import ru.tbank.currencies.exception.UnsupportedClientCurrencyCodeException;
 import ru.tbank.currencies.exception.InvalidCurrencyCodeException;
+import ru.tbank.currencies.exception.UnsupportedClientCurrencyCodeException;
 import ru.tbank.currencies.service.CurrencyService;
 
 @Tag(name = "Currency controller", description = "Currency operations")

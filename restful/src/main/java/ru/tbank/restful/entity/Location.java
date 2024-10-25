@@ -1,7 +1,10 @@
 package ru.tbank.restful.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.List;
@@ -24,7 +27,7 @@ public class Location {
 
     private String name;
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "location", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<Event> events;
 

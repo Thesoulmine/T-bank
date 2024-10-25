@@ -2,10 +2,12 @@ package ru.tbank.restful.service;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.tbank.restful.entity.Event;
 import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.repository.LocationRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Qualifier("LocationDataBaseServiceImpl")
@@ -18,27 +20,32 @@ public class LocationDataBaseServiceImpl implements LocationDataBaseService {
         this.locationRepository = locationRepository;
     }
 
+    @Transactional
     @Override
     public List<Location> getAllLocations() {
         return locationRepository.findAll();
     }
 
+    @Transactional
     @Override
     public Location getLocationBy(Long id) {
         return locationRepository.findById(id).orElseThrow();
     }
 
+    @Transactional
     @Override
     public Location getLocationWithEventsBy(Long id) {
         return locationRepository.findByWithEvents(id).orElseThrow();
     }
 
+    @Transactional
     @Override
     public Location saveLocation(Location location) {
         location.setEvents(null);
         return locationRepository.save(location);
     }
 
+    @Transactional
     @Override
     public Location updateLocation(Long id, Location location) {
         location.setId(id);
@@ -46,6 +53,7 @@ public class LocationDataBaseServiceImpl implements LocationDataBaseService {
         return locationRepository.save(location);
     }
 
+    @Transactional
     @Override
     public Location deleteLocationBy(Long id) {
         Location location = getLocationWithEventsBy(id);

@@ -25,10 +25,12 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             LocalDate toDate) {
         List<Specification<Event>> specifications = new ArrayList<>();
 
-        specifications.add((Specification<Event>) (root, query, criteriaBuilder) -> {
-            root.fetch("location");
-            return criteriaBuilder.conjunction();
-        });
+        if (location != null) {
+            specifications.add((Specification<Event>) (root, query, criteriaBuilder) -> {
+                root.fetch("location");
+                return criteriaBuilder.conjunction();
+            });
+        }
 
         if (name != null) {
             specifications.add((Specification<Event>) (root, query, criteriaBuilder) ->

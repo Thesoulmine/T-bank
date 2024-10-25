@@ -44,6 +44,8 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event saveEvent(Event event) {
+        //locationDataBaseService.getLocationBy(event.getLocation().getId());
+        System.out.println(event);
         return eventRepository.save(event);
     }
 

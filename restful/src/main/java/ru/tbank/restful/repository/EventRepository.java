@@ -14,8 +14,6 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    Event deleteEventById(Long id);
-
     List<Event> findAll(Specification<Event> specification);
 
     static Specification<Event> buildSpecification(

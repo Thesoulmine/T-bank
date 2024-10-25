@@ -27,7 +27,7 @@ public class Event {
 
     private LocalDate date;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
 

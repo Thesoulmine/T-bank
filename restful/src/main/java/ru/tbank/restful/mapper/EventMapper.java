@@ -27,9 +27,6 @@ public interface EventMapper {
 
     EventRequestDTO toRequestDTO(Event event);
 
-    //@Mapping(target = "events", ignore = true)
-    //LocationResponseDTO toLocationResponseDTO(Location location);
-
     @Named("locationIdToLocation")
     default Location locationIdToLocation(Long locationId) {
         if (locationId == null) {

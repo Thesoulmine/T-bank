@@ -2,6 +2,7 @@ package ru.tbank.restful.service;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.tbank.restful.entity.Event;
 import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.repository.LocationRepository;
 
@@ -34,17 +35,21 @@ public class LocationDataBaseServiceImpl implements LocationDataBaseService {
 
     @Override
     public Location saveLocation(Location location) {
+        location.setEvents(null);
         return locationRepository.save(location);
     }
 
     @Override
     public Location updateLocation(Long id, Location location) {
         location.setId(id);
+        location.setEvents(null);
         return locationRepository.save(location);
     }
 
     @Override
     public Location deleteLocationBy(Long id) {
-        return locationRepository.deleteLocationById(id);
+        Location location = getLocationWithEventsBy(id);
+        locationRepository.deleteById(id);
+        return location;
     }
 }

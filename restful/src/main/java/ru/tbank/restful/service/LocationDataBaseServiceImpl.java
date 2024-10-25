@@ -23,7 +23,7 @@ public class LocationDataBaseServiceImpl implements LocationDataBaseService {
     @Transactional
     @Override
     public List<Location> getAllLocations() {
-        return locationRepository.findAll();
+        return locationRepository.findAllWithEvents();
     }
 
     @Transactional

@@ -20,10 +20,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class LocationInMemoryServiceTest {
+class LocationInMemoryServiceImplTest {
 
     @InjectMocks
-    private LocationInMemoryService locationService;
+    private LocationInMemoryServiceImpl locationService;
 
     @Mock
     private Repository<Location> locationRepository;

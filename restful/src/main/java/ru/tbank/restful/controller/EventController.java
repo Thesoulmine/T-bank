@@ -36,13 +36,13 @@ public class EventController {
     @GetMapping("/filter")
     public List<EventResponseDTO> getAllEventsByFilter(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) Location location,
+            @RequestParam(required = false) Long locationId,
             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
             @RequestParam(required = false) LocalDate fromDate,
             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
             @RequestParam(required = false) LocalDate toDate) {
         return eventMapper.toResponseDTO(
-                eventService.getAllEventsBy(name, location, fromDate, toDate));
+                eventService.getAllEventsBy(name, locationId, fromDate, toDate));
     }
 
     @GetMapping("/{id}")

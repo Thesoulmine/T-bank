@@ -12,7 +12,7 @@ public interface EventService {
 
     List<Event> getAllEventsBy(
             String name,
-            Location location,
+            Long locationId,
             LocalDate fromDate,
             LocalDate toDate);
 

@@ -12,9 +12,12 @@ import java.util.List;
 public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
+    private final LocationDataBaseService locationDataBaseService;
 
-    public EventServiceImpl(EventRepository eventRepository) {
+    public EventServiceImpl(EventRepository eventRepository,
+                            LocationDataBaseService locationDataBaseService) {
         this.eventRepository = eventRepository;
+        this.locationDataBaseService = locationDataBaseService;
     }
 
     @Override
@@ -25,9 +28,11 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getAllEventsBy(
             String name,
-            Location location,
+            Long locationId,
             LocalDate fromDate,
             LocalDate toDate) {
+        Location location = locationDataBaseService.getLocationBy(locationId);
+
         return eventRepository.findAll(
                 EventRepository.buildSpecification(name, location, fromDate, toDate));
     }

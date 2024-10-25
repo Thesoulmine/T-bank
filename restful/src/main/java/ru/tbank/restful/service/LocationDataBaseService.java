@@ -1,45 +1,20 @@
 package ru.tbank.restful.service;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 import ru.tbank.restful.entity.Location;
-import ru.tbank.restful.repository.LocationRepository;
 
 import java.util.List;
 
-@Qualifier("LocationDataBaseService")
-@Service
-public class LocationDataBaseService implements LocationService {
+public interface LocationDataBaseService {
 
-    private final LocationRepository locationRepository;
+    List<Location> getAllLocations();
 
-    public LocationDataBaseService(LocationRepository locationRepository) {
-        this.locationRepository = locationRepository;
-    }
+    Location getLocationBy(Long id);
 
-    @Override
-    public List<Location> getAllLocations() {
-        return locationRepository.findAll();
-    }
+    Location getLocationWithEventsBy(Long id);
 
-    @Override
-    public Location getLocationBy(Long id) {
-        return locationRepository.findByWithEvents(id).orElseThrow();
-    }
+    Location saveLocation(Location location);
 
-    @Override
-    public Location saveLocation(Location location) {
-        return locationRepository.save(location);
-    }
+    Location updateLocation(Long id, Location location);
 
-    @Override
-    public Location updateLocation(Long id, Location location) {
-        location.setId(id);
-        return locationRepository.save(location);
-    }
-
-    @Override
-    public Location deleteLocationBy(Long id) {
-        return locationRepository.deleteLocationById(id);
-    }
+    Location deleteLocationBy(Long id);
 }

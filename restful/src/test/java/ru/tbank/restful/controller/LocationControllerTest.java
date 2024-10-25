@@ -15,7 +15,7 @@ import ru.tbank.restful.dto.LocationRequestDTO;
 import ru.tbank.restful.dto.LocationResponseDTO;
 import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.mapper.LocationMapperImpl;
-import ru.tbank.restful.service.LocationService;
+import ru.tbank.restful.service.LocationDataBaseService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -33,7 +33,7 @@ class LocationControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private LocationService locationService;
+    private LocationDataBaseService locationService;
 
     @Test
     public void getAllLocations_ReturnAllLocations_Ok() throws Exception {
@@ -71,7 +71,7 @@ class LocationControllerTest {
         resultLocation.setId(1L);
         resultLocation.setName("qwe");
 
-        Mockito.when(locationService.getLocationBy(Mockito.eq(location.getId()))).thenReturn(location);
+        Mockito.when(locationService.getLocationWithEventsBy(Mockito.eq(location.getId()))).thenReturn(location);
 
         mockMvc.perform(get("/api/v1/locations/{id}", location.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -85,7 +85,7 @@ class LocationControllerTest {
 
         ExceptionMessageResponseDTO result = new ExceptionMessageResponseDTO("Location not found");
 
-        Mockito.when(locationService.getLocationBy(Mockito.eq(id))).thenThrow(NoSuchElementException.class);
+        Mockito.when(locationService.getLocationWithEventsBy(Mockito.eq(id))).thenThrow(NoSuchElementException.class);
 
         mockMvc.perform(get("/api/v1/locations/{id}", id))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())

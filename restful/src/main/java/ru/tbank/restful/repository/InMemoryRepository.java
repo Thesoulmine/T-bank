@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile("dev")
 @Scope("prototype")
 @Component
-public class InMemoryRepositorySave<T> extends RepositoryWithId<T> {
+public class InMemoryRepository<T> extends RepositoryWithId<T> {
 
     private final Map<Long, T> storage = new ConcurrentHashMap<>();
 

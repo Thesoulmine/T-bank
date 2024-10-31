@@ -1,5 +1,6 @@
 package ru.tbank;
 
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
@@ -9,6 +10,7 @@ public class CustomLinkedList<E> implements CustomList<E> {
     private Node head;
     private Node tail;
     private int size;
+    private int modCount = 0;
 
     @Override
     public boolean add(E element) {
@@ -17,6 +19,8 @@ public class CustomLinkedList<E> implements CustomList<E> {
         } else {
             linkLastNode(element);
         }
+
+        modCount++;
         size++;
 
         return true;
@@ -37,6 +41,7 @@ public class CustomLinkedList<E> implements CustomList<E> {
 
         Node temp = findNodeByIndex(index);
         unlinkNode(temp);
+        modCount++;
 
         return temp.value;
     }
@@ -72,6 +77,7 @@ public class CustomLinkedList<E> implements CustomList<E> {
 
         for (int i = 0; i < list.size(); i++) {
             add(list.get(i));
+            modCount++;
         }
 
         return true;
@@ -86,6 +92,7 @@ public class CustomLinkedList<E> implements CustomList<E> {
         for (E element : list) {
             add(element);
             size++;
+            modCount++;
         }
 
         return true;
@@ -165,6 +172,7 @@ public class CustomLinkedList<E> implements CustomList<E> {
     private class CustomLinkedListIterator implements CustomIterator<E> {
 
         private Node current = head;
+        private final int expectedModCount = modCount;
 
         @Override
         public boolean hasNext() {
@@ -173,6 +181,8 @@ public class CustomLinkedList<E> implements CustomList<E> {
 
         @Override
         public E next() {
+            checkForModification();
+
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
@@ -185,8 +195,15 @@ public class CustomLinkedList<E> implements CustomList<E> {
         @Override
         public void forEachRemaining(Consumer<? super E> action) {
             while (hasNext()) {
+                checkForModification();
                 action.accept(current.value);
                 current = current.next;
+            }
+        }
+
+        private void checkForModification() {
+            if (expectedModCount != modCount) {
+                throw new ConcurrentModificationException();
             }
         }
     }

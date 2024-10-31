@@ -1,6 +1,8 @@
 package ru.tbank;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
 public class CustomLinkedList<E> implements CustomList<E> {
 
@@ -94,6 +96,11 @@ public class CustomLinkedList<E> implements CustomList<E> {
         return size;
     }
 
+    @Override
+    public CustomIterator<E> iterator() {
+        return new CustomLinkedListIterator();
+    }
+
     private void checkIndex(int index) {
         if (!(index >= 0 && index < size)) {
             throw new IndexOutOfBoundsException();
@@ -152,6 +159,35 @@ public class CustomLinkedList<E> implements CustomList<E> {
             this.previous = previous;
             this.next = next;
             this.value = value;
+        }
+    }
+
+    private class CustomLinkedListIterator implements CustomIterator<E> {
+
+        private Node current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current.next != null;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+
+            E value = current.value;
+            current = current.next;
+            return value;
+        }
+
+        @Override
+        public void forEachRemaining(Consumer<? super E> action) {
+            while (hasNext()) {
+                action.accept(current.value);
+                current = current.next;
+            }
         }
     }
 }

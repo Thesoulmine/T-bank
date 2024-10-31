@@ -17,4 +17,6 @@ public interface CustomList<E> {
     boolean addAll(List<E> list);
 
     int size();
+
+    CustomIterator<E> iterator();
 }

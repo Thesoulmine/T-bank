@@ -12,11 +12,10 @@ import ru.tbank.restful.client.LocationClient;
 import ru.tbank.restful.entity.Category;
 import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.service.CategoryService;
-import ru.tbank.restful.service.LocationService;
+import ru.tbank.restful.service.LocationInMemoryService;
 import ru.tbank.timedstarter.annotation.Timed;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -28,7 +27,7 @@ public class RepositoryInitializationEventListener implements ApplicationListene
     private final CategoryClient categoryClient;
     private final CategoryService categoryService;
     private final LocationClient locationClient;
-    private final LocationService locationService;
+    private final LocationInMemoryService locationInMemoryService;
     private final ExecutorService fixedRepositoryInitializationExecutorService;
     private final ScheduledExecutorService scheduledRepositoryInitializationExecutorService;
     private final Duration refreshInterval;
@@ -37,7 +36,8 @@ public class RepositoryInitializationEventListener implements ApplicationListene
             CategoryClient categoryClient,
             CategoryService categoryService,
             LocationClient locationClient,
-            LocationService locationService,
+            @Qualifier("LocationInMemoryServiceImpl")
+            LocationInMemoryService locationInMemoryService,
             @Qualifier("fixedRepositoryInitializationExecutorService")
             ExecutorService fixedRepositoryInitializationExecutorService,
             @Qualifier("scheduledRepositoryInitializationExecutorService")
@@ -47,7 +47,7 @@ public class RepositoryInitializationEventListener implements ApplicationListene
         this.categoryClient = categoryClient;
         this.categoryService = categoryService;
         this.locationClient = locationClient;
-        this.locationService = locationService;
+        this.locationInMemoryService = locationInMemoryService;
         this.fixedRepositoryInitializationExecutorService = fixedRepositoryInitializationExecutorService;
         this.scheduledRepositoryInitializationExecutorService = scheduledRepositoryInitializationExecutorService;
         this.refreshInterval = refreshInterval;
@@ -127,7 +127,7 @@ public class RepositoryInitializationEventListener implements ApplicationListene
             futures.add(fixedRepositoryInitializationExecutorService.submit(() ->
                     batch.forEach(location -> {
                         log.info("Saving location {}", location);
-                        locationService.saveLocation(location);
+                        locationInMemoryService.saveLocation(location);
                         log.info("Saving location was successful");
                     })
             ));

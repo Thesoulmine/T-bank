@@ -61,12 +61,12 @@ public class EventServiceImpl implements EventService {
         LocalDate finalDateTo = dateTo;
 
         Mono<List<Event>> eventsMono = Mono.fromCallable(() ->
-                eventClient.getEventsBy(finalDateFrom, finalDateTo))
+                        eventClient.getEventsBy(finalDateFrom, finalDateTo))
                 .subscribeOn(Schedulers.boundedElastic());
 
         Mono<BigDecimal> convertedAmountMono = Mono.fromCallable(() ->
-                currencyService.convertCurrency(currency, "RUB", BigDecimal.valueOf(budget))
-                        .getConvertedAmount())
+                        currencyService.convertCurrency(currency, "RUB", BigDecimal.valueOf(budget))
+                                .getConvertedAmount())
                 .subscribeOn(Schedulers.boundedElastic());
 
         return Mono.zip(eventsMono, convertedAmountMono)

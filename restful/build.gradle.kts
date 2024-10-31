@@ -26,16 +26,21 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-docker-compose")
+    implementation("org.liquibase:liquibase-core")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     implementation("org.mapstruct:mapstruct:1.6.2")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    runtimeOnly("org.postgresql:postgresql")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation(project(":timed-starter"))
     testImplementation("org.testcontainers:junit-jupiter:1.20.2")
     implementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-14")
+    annotationProcessor("org.hibernate:hibernate-jpamodelgen:6.6.1.Final")
 }
 
 tasks.withType<Test> {
@@ -53,7 +58,8 @@ tasks.jacocoTestReport {
         fileTree(it).matching {
             exclude(
                 "**/dto",
-                "**/mapper")
+                "**/mapper"
+            )
         }
     })
 }

@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import ru.tbank.restful.dto.ExceptionMessageResponseDTO;
 import ru.tbank.restful.dto.CategoryRequestDTO;
 import ru.tbank.restful.dto.CategoryResponseDTO;
-import ru.tbank.restful.dto.ExceptionMessageResponseDTO;
 import ru.tbank.restful.entity.Category;
 import ru.tbank.restful.mapper.CategoryMapperImpl;
 import ru.tbank.restful.service.CategoryService;
@@ -55,7 +55,7 @@ class CategoryControllerTest {
 
         Mockito.when(categoryService.getAllCategories()).thenReturn(List.of(category1, category2));
 
-        mockMvc.perform(get("/api/v1/places/categories"))
+        mockMvc.perform(get("/api/v1/categorys/categories"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(
                         objectMapper.writeValueAsString(List.of(resultCategory1, resultCategory2))));
@@ -73,7 +73,7 @@ class CategoryControllerTest {
 
         Mockito.when(categoryService.getCategoryBy(Mockito.eq(category.getId()))).thenReturn(category);
 
-        mockMvc.perform(get("/api/v1/places/categories/{id}", category.getId()))
+        mockMvc.perform(get("/api/v1/categorys/categories/{id}", category.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(
                         objectMapper.writeValueAsString(resultCategory)));
@@ -87,7 +87,7 @@ class CategoryControllerTest {
 
         Mockito.when(categoryService.getCategoryBy(Mockito.eq(id))).thenThrow(NoSuchElementException.class);
 
-        mockMvc.perform(get("/api/v1/places/categories/{id}", id))
+        mockMvc.perform(get("/api/v1/categorys/categories/{id}", id))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(result)));
 
@@ -111,7 +111,7 @@ class CategoryControllerTest {
 
         Mockito.when(categoryService.saveCategory(Mockito.any(Category.class))).thenReturn(category);
 
-        mockMvc.perform(post("/api/v1/places/categories")
+        mockMvc.perform(post("/api/v1/categorys/categories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestCategory)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -137,7 +137,7 @@ class CategoryControllerTest {
         Mockito.when(categoryService.updateCategory(Mockito.eq(category.getId()), Mockito.any(Category.class)))
                 .thenReturn(category);
 
-        mockMvc.perform(put("/api/v1/places/categories/{id}", category.getId())
+        mockMvc.perform(put("/api/v1/categorys/categories/{id}", category.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestCategory)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -160,7 +160,7 @@ class CategoryControllerTest {
         Mockito.when(categoryService.updateCategory(Mockito.eq(category.getId()), Mockito.any(Category.class)))
                 .thenThrow(NoSuchElementException.class);
 
-        mockMvc.perform(put("/api/v1/places/categories/{id}", category.getId())
+        mockMvc.perform(put("/api/v1/categorys/categories/{id}", category.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestCategory)))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -181,7 +181,7 @@ class CategoryControllerTest {
 
         Mockito.when(categoryService.deleteCategoryBy(Mockito.eq(category.getId()))).thenReturn(category);
 
-        mockMvc.perform(delete("/api/v1/places/categories/{id}", category.getId()))
+        mockMvc.perform(delete("/api/v1/categorys/categories/{id}", category.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(resultCategory)));
     }

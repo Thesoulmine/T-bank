@@ -7,30 +7,29 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "locations")
+@Table(name = "events")
 @Entity
-public class Location {
+public class Event {
 
-    @ru.tbank.restful.annotation.Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "locations_seq")
-    @SequenceGenerator(name = "locations_seq", sequenceName = "locations_seq", allocationSize = 50)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "events_seq")
+    @SequenceGenerator(name = "events_seq", sequenceName = "events_seq", allocationSize = 50)
     @Id
     private Long id;
 
-    private String slug;
-
     private String name;
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.REMOVE)
-    @ToString.Exclude
-    private List<Event> events;
+    private LocalDate date;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     @Override
     public final boolean equals(Object o) {
@@ -39,8 +38,8 @@ public class Location {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Location location = (Location) o;
-        return getId() != null && Objects.equals(getId(), location.getId());
+        Event event = (Event) o;
+        return getId() != null && Objects.equals(getId(), event.getId());
     }
 
     @Override

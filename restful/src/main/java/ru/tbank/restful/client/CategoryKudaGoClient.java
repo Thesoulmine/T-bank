@@ -41,7 +41,8 @@ public class CategoryKudaGoClient implements CategoryClient {
                     .get()
                     .uri("place-categories/")
                     .retrieve()
-                    .body(new ParameterizedTypeReference<>() {});
+                    .body(new ParameterizedTypeReference<>() {
+                    });
         } finally {
             rateLimiter.release();
         }

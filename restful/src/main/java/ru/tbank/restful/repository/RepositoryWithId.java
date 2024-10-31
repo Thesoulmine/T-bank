@@ -5,7 +5,7 @@ import ru.tbank.restful.annotation.Id;
 import java.lang.reflect.Field;
 import java.util.concurrent.atomic.AtomicLong;
 
-public abstract class RepositoryWithId<T> implements Repository<T>  {
+public abstract class RepositoryWithId<T> implements Repository<T> {
 
     protected final AtomicLong idCounter = new AtomicLong(1);
     protected Field idField;

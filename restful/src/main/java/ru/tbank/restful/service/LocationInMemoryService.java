@@ -4,7 +4,8 @@ import ru.tbank.restful.entity.Location;
 
 import java.util.List;
 
-public interface LocationService {
+public interface LocationInMemoryService {
+
     List<Location> getAllLocations();
 
     Location getLocationBy(Long id);

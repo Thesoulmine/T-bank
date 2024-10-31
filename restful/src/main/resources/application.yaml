@@ -1,8 +1,21 @@
 spring:
+  docker:
+    compose:
+      enabled: true
+      file: docker-compose.yaml
   application:
     name: restful
   profiles:
     default: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 timed:
   enabled: true
 executor-service:
@@ -13,4 +26,3 @@ executor-service:
 limiter:
   kuda-go:
     max-concurrent-requests: 2
-

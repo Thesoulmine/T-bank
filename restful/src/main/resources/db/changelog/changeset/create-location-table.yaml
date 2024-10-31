@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: Shamil
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_location
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: slug
+                  type: VARCHAR(255)
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+            tableName: locations
+  - changeSet:
+      id: 4
+      author: Shamil
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createSequence:
+            incrementBy: 50
+            sequenceName: locations_seq
+            startValue: 1

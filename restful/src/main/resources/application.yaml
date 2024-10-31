@@ -1,4 +1,8 @@
 spring:
+  docker:
+    compose:
+      enabled: true
+      file: docker-compose.yaml
   application:
     name: restful
   profiles:
@@ -22,5 +26,3 @@ executor-service:
 limiter:
   kuda-go:
     max-concurrent-requests: 2
-
-

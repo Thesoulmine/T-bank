@@ -19,7 +19,8 @@ import java.util.Objects;
 public class Location {
 
     @ru.tbank.restful.annotation.Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "locations_seq")
+    @SequenceGenerator(name = "locations_seq", sequenceName = "locations_seq", allocationSize = 50)
     @Id
     private Long id;
 

@@ -26,6 +26,7 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-docker-compose")
     implementation("org.liquibase:liquibase-core")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -39,6 +40,7 @@ dependencies {
     implementation(project(":timed-starter"))
     testImplementation("org.testcontainers:junit-jupiter:1.20.2")
     implementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-14")
+    annotationProcessor("org.hibernate:hibernate-jpamodelgen:6.6.1.Final")
 }
 
 tasks.withType<Test> {

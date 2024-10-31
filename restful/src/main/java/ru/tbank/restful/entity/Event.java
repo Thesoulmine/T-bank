@@ -1,6 +1,5 @@
 package ru.tbank.restful.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,8 @@ import java.util.Objects;
 @Entity
 public class Event {
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "events_seq")
+    @SequenceGenerator(name = "events_seq", sequenceName = "events_seq", allocationSize = 50)
     @Id
     private Long id;
 

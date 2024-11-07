@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
     List<Event> findAll(Specification<Event> specification);

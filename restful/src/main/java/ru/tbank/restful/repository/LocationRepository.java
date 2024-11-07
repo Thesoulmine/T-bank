@@ -8,7 +8,6 @@ import ru.tbank.restful.entity.Location;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
 
     @Query("SELECT l FROM Location l JOIN FETCH l.events")

@@ -17,6 +17,10 @@ public class Main {
         customLinkedList.addAll(testList);
         customLinkedList.addAll(testCustomLinkedList);
 
+        CustomIterator<Integer> iterator = customLinkedList.iterator();
+
+        iterator.forEachRemaining(System.out::println);
+
         CustomLinkedList<Integer> streamLinkedList =
                 Stream.of(6, 7, 8)
                         .reduce(new CustomLinkedList<>(),

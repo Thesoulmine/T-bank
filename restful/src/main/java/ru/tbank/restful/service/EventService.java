@@ -1,7 +1,6 @@
 package ru.tbank.restful.service;
 
 import ru.tbank.restful.entity.Event;
-import ru.tbank.restful.entity.Location;
 
 import java.time.LocalDate;
 import java.util.List;

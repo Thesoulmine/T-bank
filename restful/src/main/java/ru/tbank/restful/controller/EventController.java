@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.tbank.restful.dto.EventRequestDTO;
 import ru.tbank.restful.dto.EventResponseDTO;
 import ru.tbank.restful.dto.ExceptionMessageResponseDTO;
-import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.mapper.EventMapper;
 import ru.tbank.restful.service.EventService;
 

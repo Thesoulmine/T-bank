@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 9
+      author: Shamil
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: roles_id
+                  type: BIGINT
+            tableName: users_roles

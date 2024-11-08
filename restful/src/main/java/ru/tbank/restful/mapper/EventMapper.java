@@ -5,7 +5,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import ru.tbank.restful.dto.EventRequestDTO;
 import ru.tbank.restful.dto.EventResponseDTO;
-import ru.tbank.restful.dto.LocationResponseDTO;
 import ru.tbank.restful.entity.Event;
 import ru.tbank.restful.entity.Location;
 

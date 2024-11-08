@@ -7,7 +7,6 @@ import ru.tbank.restful.enums.RepositoryActionType;
 import ru.tbank.restful.listener.repository.RepositorySaveEventListener;
 import ru.tbank.restful.publisher.RepositorySaveEventPublisher;
 import ru.tbank.restful.repository.Repository;
-import ru.tbank.restful.snapshot.CategorySnapshot;
 import ru.tbank.restful.snapshot.ChangesHistory;
 import ru.tbank.restful.snapshot.LocationSnapshot;
 

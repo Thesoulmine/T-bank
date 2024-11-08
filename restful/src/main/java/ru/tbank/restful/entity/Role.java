@@ -6,31 +6,28 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
+import org.springframework.security.core.GrantedAuthority;
 
-import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "locations")
+@Table(name = "roles")
 @Entity
-public class Location {
+public class Role implements GrantedAuthority {
 
-    @ru.tbank.restful.annotation.Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "locations_seq")
-    @SequenceGenerator(name = "locations_seq", sequenceName = "locations_seq", allocationSize = 50)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String slug;
 
     private String name;
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.REMOVE)
-    @ToString.Exclude
-    private List<Event> events;
+    @Override
+    public String getAuthority() {
+        return name;
+    }
 
     @Override
     public final boolean equals(Object o) {
@@ -39,8 +36,8 @@ public class Location {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Location location = (Location) o;
-        return getId() != null && Objects.equals(getId(), location.getId());
+        Role role = (Role) o;
+        return getId() != null && Objects.equals(getId(), role.getId());
     }
 
     @Override

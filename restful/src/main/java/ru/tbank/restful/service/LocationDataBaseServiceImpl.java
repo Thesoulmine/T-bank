@@ -3,11 +3,9 @@ package ru.tbank.restful.service;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.tbank.restful.entity.Event;
 import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.repository.LocationRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Qualifier("LocationDataBaseServiceImpl")

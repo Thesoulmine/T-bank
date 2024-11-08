@@ -2,16 +2,12 @@ package ru.tbank.restful.service;
 
 import org.springframework.stereotype.Service;
 import ru.tbank.restful.entity.Category;
-import ru.tbank.restful.entity.Category;
-import ru.tbank.restful.entity.Category;
 import ru.tbank.restful.enums.RepositoryActionType;
 import ru.tbank.restful.listener.repository.RepositorySaveEventListener;
 import ru.tbank.restful.publisher.RepositorySaveEventPublisher;
 import ru.tbank.restful.repository.Repository;
 import ru.tbank.restful.snapshot.CategorySnapshot;
-import ru.tbank.restful.snapshot.CategorySnapshot;
 import ru.tbank.restful.snapshot.ChangesHistory;
-import ru.tbank.restful.snapshot.CategorySnapshot;
 
 import java.util.*;
 

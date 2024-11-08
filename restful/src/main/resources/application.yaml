@@ -26,3 +26,8 @@ executor-service:
 limiter:
   kuda-go:
     max-concurrent-requests: 2
+server:
+  servlet:
+    session:
+      remembered-timeout: 2592000
+      not-remembered-timeout: 1800

@@ -1,7 +1,10 @@
 package ru.tbank.restful.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -11,7 +14,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table("roles")
+@Table(name = "roles")
 @Entity
 public class Role implements GrantedAuthority {
 
@@ -19,11 +22,11 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String role;
+    private String name;
 
     @Override
     public String getAuthority() {
-        return role;
+        return name;
     }
 
     @Override

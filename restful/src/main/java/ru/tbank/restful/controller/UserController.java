@@ -1,9 +1,9 @@
 package ru.tbank.restful.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.*;
 import ru.tbank.restful.dto.UserRequestDTO;
 import ru.tbank.restful.dto.UserResponseDTO;
 import ru.tbank.restful.mapper.UserMapper;
@@ -28,9 +28,22 @@ public class UserController {
                 userService.registerUser(userMapper.toEntity(userRequestDTO)));
     }
 
-//    @PostMapping("/login")
-//
-//    @PostMapping("/logout")
-//
+    @PostMapping("/login")
+    public void loginUser(@RequestBody UserRequestDTO userRequestDTO,
+                                     HttpSession httpSession,
+                                     HttpServletRequest request) throws ServletException {
+        request.login(userRequestDTO.getEmail(), userRequestDTO.getPassword());
+        if (userRequestDTO.isRememberMe()) {
+            httpSession.setMaxInactiveInterval(2592000);
+        } else {
+            httpSession.setMaxInactiveInterval(1800);
+        }
+    }
+
+    @PostMapping("/logout")
+    public void logoutUser(HttpServletRequest request) throws ServletException {
+        request.logout();
+    }
+
 //    @PostMapping("/reset")
 }

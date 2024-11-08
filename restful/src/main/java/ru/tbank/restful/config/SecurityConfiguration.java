@@ -32,6 +32,8 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers(
+                                new AntPathRequestMatcher("/api/v1/users/test", "POST"))
+                        .ignoringRequestMatchers(
                                 new AntPathRequestMatcher("/api/v1/users/register", "POST"))
                         .ignoringRequestMatchers(
                                 new AntPathRequestMatcher("/api/v1/users/login", "POST"))

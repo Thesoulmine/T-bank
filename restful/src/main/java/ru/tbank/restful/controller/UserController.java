@@ -61,6 +61,7 @@ public class UserController {
         request.logout();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/test")
     public void test() {
 

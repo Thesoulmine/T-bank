@@ -22,6 +22,7 @@ import ru.tbank.restful.service.UserService;
 import java.util.List;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class SecurityConfiguration {
 
@@ -33,7 +34,6 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/users/login").permitAll()
                         .requestMatchers("/api/v1/users/logout").permitAll()
                         .requestMatchers("/api/v1/users/reset").permitAll()
-                        .requestMatchers("/api/v1/users/test").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers(

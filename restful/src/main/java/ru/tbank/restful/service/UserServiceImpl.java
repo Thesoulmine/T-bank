@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.tbank.restful.entity.Role;
 import ru.tbank.restful.entity.User;
 import ru.tbank.restful.exception.UserAlreadyExistException;
 import ru.tbank.restful.repository.RoleRepository;

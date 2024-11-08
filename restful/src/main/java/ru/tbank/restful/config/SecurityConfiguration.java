@@ -7,7 +7,10 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +22,7 @@ import ru.tbank.restful.service.UserService;
 import java.util.List;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
 
     @Bean
@@ -29,8 +33,11 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/users/login").permitAll()
                         .requestMatchers("/api/v1/users/logout").permitAll()
                         .requestMatchers("/api/v1/users/reset").permitAll()
+                        .requestMatchers("/api/v1/users/test").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(
+                                new AntPathRequestMatcher("/api/v1/users/test", "POST"))
                         .ignoringRequestMatchers(
                                 new AntPathRequestMatcher("/api/v1/users/register", "POST"))
                         .ignoringRequestMatchers(

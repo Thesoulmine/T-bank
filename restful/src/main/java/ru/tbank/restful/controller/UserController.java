@@ -1,14 +1,21 @@
 package ru.tbank.restful.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.tbank.restful.dto.UserRequestDTO;
 import ru.tbank.restful.dto.UserResponseDTO;
 import ru.tbank.restful.mapper.UserMapper;
 import ru.tbank.restful.service.UserService;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -52,6 +59,12 @@ public class UserController {
     @PostMapping("/logout")
     public void logoutUser(HttpServletRequest request) throws ServletException {
         request.logout();
+    }
+
+    @PostMapping("/test")
+    public void test() {
+        Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        System.out.println(authorities);
     }
 
 //    @PostMapping("/reset")

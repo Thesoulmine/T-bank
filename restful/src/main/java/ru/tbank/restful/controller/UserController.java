@@ -63,8 +63,7 @@ public class UserController {
 
     @PostMapping("/test")
     public void test() {
-        Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        System.out.println(authorities);
+
     }
 
 //    @PostMapping("/reset")

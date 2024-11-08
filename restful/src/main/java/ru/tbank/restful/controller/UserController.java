@@ -3,6 +3,7 @@ package ru.tbank.restful.controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import ru.tbank.restful.dto.UserRequestDTO;
 import ru.tbank.restful.dto.UserResponseDTO;
@@ -15,11 +16,19 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final int sessionRememberedTimeout;
+    private final int sessionNotRememberedTimeout;
 
     public UserController(UserService userService,
-                          UserMapper userMapper) {
+                          UserMapper userMapper,
+                          @Value("${server.servlet.session.remembered-timeout}")
+                          int sessionRememberedTimeout,
+                          @Value("${server.servlet.session.not-remembered-timeout}")
+                          int sessionNotRememberedTimeout) {
         this.userService = userService;
         this.userMapper = userMapper;
+        this.sessionRememberedTimeout = sessionRememberedTimeout;
+        this.sessionNotRememberedTimeout = sessionNotRememberedTimeout;
     }
 
     @PostMapping("/register")
@@ -34,9 +43,9 @@ public class UserController {
                                      HttpServletRequest request) throws ServletException {
         request.login(userRequestDTO.getEmail(), userRequestDTO.getPassword());
         if (userRequestDTO.isRememberMe()) {
-            httpSession.setMaxInactiveInterval(2592000);
+            httpSession.setMaxInactiveInterval(sessionRememberedTimeout);
         } else {
-            httpSession.setMaxInactiveInterval(1800);
+            httpSession.setMaxInactiveInterval(sessionNotRememberedTimeout);
         }
     }
 

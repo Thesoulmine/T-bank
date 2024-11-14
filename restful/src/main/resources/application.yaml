@@ -1,7 +1,7 @@
 spring:
   docker:
     compose:
-      enabled: false
+      enabled: true
       file: docker-compose.yaml
   application:
     name: restful

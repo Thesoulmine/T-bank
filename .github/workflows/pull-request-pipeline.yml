@@ -18,14 +18,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: gradle
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          cache-disabled: true
 
       - name: Run Tests
         working-directory: ./restful

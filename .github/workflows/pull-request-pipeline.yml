@@ -18,6 +18,9 @@ jobs:
           java-version: '17'
           cache: gradle
 
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
       - name: Run Tests
         working-directory: ./restful
         run: ./gradlew test

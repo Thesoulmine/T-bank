@@ -24,7 +24,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run tests
-        run: ./gradlew test
+        run: ./gradlew restful:build
 
       - name: Run test coverage
         run: ./gradlew jacocoTestReport

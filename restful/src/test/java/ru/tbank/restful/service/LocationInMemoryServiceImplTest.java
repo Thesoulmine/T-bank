@@ -123,6 +123,7 @@ class LocationInMemoryServiceImplTest {
         ArgumentCaptor<Long> idCaptor = ArgumentCaptor.forClass(Long.class);
 
         when(locationRepository.update(eq(location.getId()), any(Location.class))).thenReturn(location);
+        when(locationRepository.find(eq(location.getId()))).thenReturn(Optional.of(location));
 
         Location result = locationService.updateLocation(location.getId(), location);
 
@@ -142,6 +143,7 @@ class LocationInMemoryServiceImplTest {
         ArgumentCaptor<Long> idCaptor = ArgumentCaptor.forClass(Long.class);
 
         when(locationRepository.update(eq(location.getId()), any(Location.class))).thenThrow(NoSuchElementException.class);
+        when(locationRepository.find(eq(location.getId()))).thenReturn(Optional.of(location));
 
         assertThrows(NoSuchElementException.class, () -> locationService.updateLocation(location.getId(), location));
         verify(locationRepository).update(idCaptor.capture(), locationCaptor.capture());

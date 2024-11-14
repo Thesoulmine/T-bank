@@ -123,6 +123,7 @@ class CategoryServiceImplTest {
         ArgumentCaptor<Long> idCaptor = ArgumentCaptor.forClass(Long.class);
 
         when(categoryRepository.update(eq(category.getId()), any(Category.class))).thenReturn(category);
+        when(categoryRepository.find(eq(category.getId()))).thenReturn(Optional.of(category));
 
         Category result = categoryService.updateCategory(category.getId(), category);
 
@@ -142,6 +143,7 @@ class CategoryServiceImplTest {
         ArgumentCaptor<Long> idCaptor = ArgumentCaptor.forClass(Long.class);
 
         when(categoryRepository.update(eq(category.getId()), any(Category.class))).thenThrow(NoSuchElementException.class);
+        when(categoryRepository.find(eq(category.getId()))).thenReturn(Optional.of(category));
 
         assertThrows(NoSuchElementException.class, () -> categoryService.updateCategory(category.getId(), category));
         verify(categoryRepository).update(idCaptor.capture(), categoryCaptor.capture());

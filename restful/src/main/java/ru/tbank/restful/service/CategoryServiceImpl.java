@@ -63,12 +63,14 @@ public class CategoryServiceImpl implements
     public Category saveCategory(Category category) {
         Category savedCategory = saveEntity(category);
 
-        addToHistory(new CategorySnapshot(
-                savedCategory.getId(),
-                savedCategory.getKudaGoId(),
-                savedCategory.getSlug(),
-                savedCategory.getName(),
-                RepositoryActionType.SAVE));
+        if (savedCategory != null) {
+            addToHistory(new CategorySnapshot(
+                    savedCategory.getId(),
+                    savedCategory.getKudaGoId(),
+                    savedCategory.getSlug(),
+                    savedCategory.getName(),
+                    RepositoryActionType.SAVE));
+        }
 
         return savedCategory;
     }
@@ -77,12 +79,14 @@ public class CategoryServiceImpl implements
     public Category updateCategory(Long id, Category category) {
         Category originCategory = getCategoryBy(id);
 
-        addToHistory(new CategorySnapshot(
-                originCategory.getId(),
-                originCategory.getKudaGoId(),
-                originCategory.getSlug(),
-                originCategory.getName(),
-                RepositoryActionType.UPDATE));
+        if (originCategory != null) {
+            addToHistory(new CategorySnapshot(
+                    originCategory.getId(),
+                    originCategory.getKudaGoId(),
+                    originCategory.getSlug(),
+                    originCategory.getName(),
+                    RepositoryActionType.UPDATE));
+        }
 
         return categoryRepository.update(id, category);
     }
@@ -91,12 +95,14 @@ public class CategoryServiceImpl implements
     public Category deleteCategoryBy(Long id) {
         Category deletedCategory = categoryRepository.delete(id);
 
-        addToHistory(new CategorySnapshot(
-                deletedCategory.getId(),
-                deletedCategory.getKudaGoId(),
-                deletedCategory.getSlug(),
-                deletedCategory.getName(),
-                RepositoryActionType.DELETE));
+        if (deletedCategory != null) {
+            addToHistory(new CategorySnapshot(
+                    deletedCategory.getId(),
+                    deletedCategory.getKudaGoId(),
+                    deletedCategory.getSlug(),
+                    deletedCategory.getName(),
+                    RepositoryActionType.DELETE));
+        }
 
         return deletedCategory;
     }

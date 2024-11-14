@@ -62,11 +62,13 @@ public class LocationInMemoryServiceImpl
     public Location saveLocation(Location location) {
         Location savedLocation = saveEntity(location);
 
-        addToHistory(new LocationSnapshot(
-                savedLocation.getId(),
-                savedLocation.getSlug(),
-                savedLocation.getName(),
-                RepositoryActionType.SAVE));
+        if (savedLocation != null) {
+            addToHistory(new LocationSnapshot(
+                    savedLocation.getId(),
+                    savedLocation.getSlug(),
+                    savedLocation.getName(),
+                    RepositoryActionType.SAVE));
+        }
 
         return savedLocation;
     }
@@ -75,11 +77,13 @@ public class LocationInMemoryServiceImpl
     public Location updateLocation(Long id, Location location) {
         Location originLocation = getLocationBy(id);
 
-        addToHistory(new LocationSnapshot(
-                originLocation.getId(),
-                originLocation.getSlug(),
-                originLocation.getName(),
-                RepositoryActionType.UPDATE));
+        if (originLocation != null) {
+            addToHistory(new LocationSnapshot(
+                    originLocation.getId(),
+                    originLocation.getSlug(),
+                    originLocation.getName(),
+                    RepositoryActionType.UPDATE));
+        }
 
         return locationRepository.update(id, location);
     }
@@ -88,11 +92,13 @@ public class LocationInMemoryServiceImpl
     public Location deleteLocationBy(Long id) {
         Location deletedLocation = locationRepository.delete(id);
 
-        addToHistory(new LocationSnapshot(
-                deletedLocation.getId(),
-                deletedLocation.getSlug(),
-                deletedLocation.getName(),
-                RepositoryActionType.DELETE));
+        if (deletedLocation != null) {
+            addToHistory(new LocationSnapshot(
+                    deletedLocation.getId(),
+                    deletedLocation.getSlug(),
+                    deletedLocation.getName(),
+                    RepositoryActionType.DELETE));
+        }
 
         return deletedLocation;
     }

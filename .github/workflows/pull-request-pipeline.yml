@@ -22,4 +22,4 @@ jobs:
 
       - name: Run Tests
         working-directory: ./restful
-        run: gradlew test
+        run: ./gradlew test

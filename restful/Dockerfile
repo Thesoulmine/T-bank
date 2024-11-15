@@ -1,15 +1,7 @@
-FROM gradle:7.6.0-jdk17 AS build
+FROM openjdk:17-jdk-alpine
 
-COPY . /home/gradle/project
-WORKDIR /home/gradle/project
+RUN mkdir /app
 
-RUN gradle clean build --no-daemon
+COPY build/libs/*.jar /app/restful-0.0.1-SNAPSHOT.jar
 
-FROM openjdk:17-jdk-slim
-
-WORKDIR /app
-COPY --from=build /home/gradle/project/build/libs/*.jar restful-0.0.1-SNAPSHOT.jar
-
-EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "/app/restful-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/restful-0.0.1-SNAPSHOT.jar"]

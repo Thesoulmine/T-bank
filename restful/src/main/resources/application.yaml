@@ -2,7 +2,7 @@ spring:
   docker:
     compose:
       enabled: true
-      file: docker-compose.yaml
+      file: restful/docker-compose.yaml
   application:
     name: restful
   profiles:

@@ -52,3 +52,16 @@ jobs:
         with:
           name: static-code-analysis-report
           path: restful/build/reports/checkstyle
+
+      - name: Build Docker image
+        run: docker build -t ghcr.io/${{ github.repository }}/spring-app:${{ github.sha }} .
+
+      - name: Log in to GitHub Packages
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Docker image to GitHub Packages
+        run: docker push ghcr.io/${{ github.repository }}/spring-app:${{ github.sha }}

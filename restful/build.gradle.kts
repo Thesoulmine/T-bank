@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.3.4"
     id("io.spring.dependency-management") version "1.1.6"
     jacoco
+    checkstyle
 }
 
 group = "ru.tbank"
@@ -62,4 +63,12 @@ tasks.jacocoTestReport {
             )
         }
     })
+}
+
+
+tasks.withType<Checkstyle>().configureEach {
+    reports {
+        xml.required = false
+        html.required = true
+    }
 }

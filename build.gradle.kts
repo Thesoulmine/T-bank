@@ -1,4 +1,5 @@
 plugins {
+    java
 }
 
 group = "ru.tbank"
@@ -9,4 +10,11 @@ repositories {
 }
 
 dependencies {
+}
+
+tasks.withType<Checkstyle>().configureEach {
+    reports {
+        xml.required = false
+        html.required = true
+    }
 }

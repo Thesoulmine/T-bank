@@ -43,3 +43,12 @@ jobs:
         with:
           name: jacoco-report
           path: restful/build/jacocoHtml
+
+      - name: Static code analysis
+        run: ./gradlew check
+
+      - name: Upload static code analysis report
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-code-analysis-report
+          path: restful/build/reports/checkstyle

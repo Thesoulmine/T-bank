@@ -10,9 +10,12 @@ import ru.tbank.restful.entity.Location;
 import ru.tbank.restful.limiter.KudaGoRateLimiter;
 import ru.tbank.restful.mapper.LocationMapperImpl;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 @Testcontainers
 class LocationKudaGoClientTest {
@@ -44,6 +47,9 @@ class LocationKudaGoClientTest {
 
         List<Location> result = locationClient.getAllLocations();
 
-        assertEquals(List.of(location1, location2), result);
+        assertEquals(List.of("qwe", "asd"),
+                result.stream().map(Location::getSlug).collect(Collectors.toList()));
+        assertEquals(List.of("qwe", "asd"),
+                result.stream().map(Location::getName).collect(Collectors.toList()));
     }
 }

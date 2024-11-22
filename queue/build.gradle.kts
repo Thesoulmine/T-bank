@@ -2,6 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
+    id("me.champeau.jmh") version "0.7.0"
 }
 
 group = "ru.tbank"
@@ -11,6 +12,10 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+}
+
+jmh {
+    includes.set(listOf(".*"))
 }
 
 configurations {
@@ -33,6 +38,9 @@ dependencies {
     testImplementation("org.springframework.amqp:spring-rabbit-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("org.openjdk.jmh:jmh-core:1.37")
+    implementation("org.openjdk.jmh:jmh-generator-annprocess:1.37")
+
 }
 
 tasks.withType<Test> {

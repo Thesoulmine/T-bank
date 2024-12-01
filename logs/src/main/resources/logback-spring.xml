@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%date] %level [%mdc{requestId}] %m%n</pattern>
+        </encoder>
+    </appender>
     <appender name="LOGSTASH" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>./logstash/logs/spring-boot-logs.log</file> <!-- add your log file path -->.
+        <file>./logstash/logs/spring-boot-logs.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>./logstash/logs/spring-boot-logs-%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>1</maxHistory>

@@ -11,5 +11,58 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     restart: unless-stopped
+
+  elasticsearch:
+    image: elasticsearch:8.15.5
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+      - xpack.security.enabled=false
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - elk
+
+  logstash:
+    image: logstash:8.15.5
+    container_name: logstash
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash/logs/sample.log:/usr/share/logstash/data/sample.log # add your log file path to here
+      - ./logstash/logs:/usr/share/logstash/logs
+    ports:
+      - 5000:5000
+    environment:
+      - 'LS_JAVA_OPTS=-Xmx256m -Xms256m'
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: kibana:8.15.5
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - 'NODE_OPTIONS=--max-old-space-size=2048'
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+networks:
+  elk:
+    driver: bridge
+
 volumes:
+  es-data:
+    driver: local
   db-data:

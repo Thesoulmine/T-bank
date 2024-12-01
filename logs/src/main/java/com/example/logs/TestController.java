@@ -16,9 +16,10 @@ public class TestController {
     @GetMapping("/test")
     public String test() {
         UUID uuid = UUID.randomUUID();
-        MDC.put("requestId", uuid.toString());
-        
-        log.info("Test request started");
+
+        try (MDC.MDCCloseable ignored = MDC.putCloseable("requestId", uuid.toString())){
+            log.info("Test request started");
+        }
 
         return uuid.toString();
     }

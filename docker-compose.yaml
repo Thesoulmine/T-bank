@@ -34,8 +34,6 @@ services:
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - ./logstash/logs/sample.log:/usr/share/logstash/data/sample.log # add your log file path to here
-      - ./logstash/logs:/usr/share/logstash/logs
     ports:
       - 5000:5000
     environment:
